@@ -2,38 +2,38 @@ namespace UserAndUnitManagement.Application.Features.Users.Dtos
 {
     public class UserDto
     {
-        public Guid Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public int Role { get; set; } // Using int for enum for simplicity in DTO
-        public bool IsActive { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public required Guid Id { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public required string Email { get; set; }
+        public required int Role { get; set; } // Using int for enum for simplicity in DTO
+        public required bool IsActive { get; set; }
+        public required DateTime CreatedDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
-        public bool OptInToDirectory { get; set; }
-        public bool ShowEmailInDirectory { get; set; }
+        public required bool OptInToDirectory { get; set; }
+        public required bool ShowEmailInDirectory { get; set; }
     }
 
     public class CreateUserDto
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public int Role { get; set; }
-        public bool IsActive { get; set; }
-        public bool OptInToDirectory { get; set; }
-        public bool ShowEmailInDirectory { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public required string Email { get; set; }
+        public required string Password { get; set; }
+        public required int Role { get; set; }
+        public required bool IsActive { get; set; }
+        public required bool OptInToDirectory { get; set; }
+        public required bool ShowEmailInDirectory { get; set; }
     }
 
     public class UpdateUserDto
     {
-        public Guid Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int Role { get; set; }
-        public bool IsActive { get; set; }
-        public bool OptInToDirectory { get; set; }
-        public bool ShowEmailInDirectory { get; set; }
+        public required Guid Id { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public required int Role { get; set; }
+        public required bool IsActive { get; set; }
+        public required bool OptInToDirectory { get; set; }
+        public required bool ShowEmailInDirectory { get; set; }
     }
 }

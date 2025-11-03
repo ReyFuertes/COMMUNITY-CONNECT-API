@@ -1,12 +1,7 @@
-using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
+using UserAndUnitManagement.Application.Features.Users.Commands;
 using UserAndUnitManagement.Application.Features.Users.Dtos;
-using UserAndUnitManagement.Domain.Interfaces;
-using UserAndUnitManagement.Domain.Entities;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
+using MediatR;
 
 namespace UserAndUnitManagement.Api.Controllers
 {
@@ -14,55 +9,25 @@ namespace UserAndUnitManagement.Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IConfiguration _configuration;
+        private readonly IMediator _mediator;
 
-        public AuthController(IUserRepository userRepository, IConfiguration configuration)
+        public AuthController(IMediator mediator)
         {
-            _userRepository = userRepository;
-            _configuration = configuration;
+            _mediator = mediator;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto login)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var user = await _userRepository.GetUserByEmail(login.Email);
-
-            if (user == null)
+            try
             {
-                return Unauthorized();
+                var token = await _mediator.Send(new LoginCommand { Email = loginDto.Email, Password = loginDto.Password });
+                return Ok(new { token });
             }
-
-            using (var sha256 = SHA256.Create())
+            catch (UnauthorizedAccessException ex)
             {
-                var passwordWithSalt = login.Password + user.Salt; // Use the stored salt
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(passwordWithSalt));
-                var hashedPassword = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-
-                if (hashedPassword != user.PasswordHash)
-                {
-                    return Unauthorized();
-                }
+                return Unauthorized(new { message = ex.Message });
             }
-
-            var jwtSettings = _configuration.GetSection("JwtSettings");
-            var secretKey = Encoding.ASCII.GetBytes(jwtSettings["Secret"]!);
-
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email)
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: jwtSettings["Issuer"]!,
-                audience: jwtSettings["Audience"]!,
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256)
-            );
-
-            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
     }
 }
