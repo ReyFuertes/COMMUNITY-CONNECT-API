@@ -9,14 +9,16 @@ namespace UserAndUnitManagement.Infrastructure.Persistence
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             // Build configuration
+            // Build configuration
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "UserAndUnitManagement.Api"))
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
             // Create DbContextOptionsBuilder
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
+            builder.UseSqlServer(connectionString);
             builder.UseSqlServer(connectionString);
 
             return new ApplicationDbContext(builder.Options);

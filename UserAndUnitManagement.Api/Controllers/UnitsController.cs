@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using MediatR;
 using UserAndUnitManagement.Application.Features.Units.Queries;
 using UserAndUnitManagement.Application.Features.Units.Commands;
-using Unit = MediatR.Unit;
+using Unit = UserAndUnitManagement.Domain.Entities.Unit;
+
 
 namespace UserAndUnitManagement.Api.Controllers
 {
