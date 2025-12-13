@@ -36,6 +36,11 @@ Community Connect is a microservices-based application designed to manage users,
     -   `FinanceService.Application`: Business logic for payment processing, invoicing, and expense management.
     -   `FinanceService.Domain`: Domain entities (Invoice, Payment, Expense) and interfaces.
     -   `FinanceService.Infrastructure`: Data access, payment gateway integrations (Stripe, Xendit), and Azure Blob Storage for receipts.
+-   `SecurityService`: A microservice for visitor management, access control, and parcel tracking.
+    -   `SecurityService.Api`: The API layer, providing endpoints for guards and residents.
+    -   `SecurityService.Application`: Business logic for visitor passes, QR code generation, and parcel logging.
+    -   `SecurityService.Domain`: Domain entities (VisitorPass, VisitLog, Parcel).
+    -   `SecurityService.Infrastructure`: EF Core persistence, QR code generation service, and notification client.
 
 ## Setup Instructions
 
@@ -63,6 +68,7 @@ Once the Docker containers are up and running, the services will be accessible a
 -   **CommunicationHub API**: `http://localhost:8082`
 -   **MaintenanceService API**: `http://localhost:8083`
 -   **FinanceService API**: `http://localhost:8084`
+-   **SecurityService API**: `http://localhost:8085`
 
 ## Testing Real-Time Notifications
 
@@ -79,8 +85,8 @@ Each microservice provides Swagger UI for easy exploration:
 -   **UserAndUnitManagement Swagger UI**: `http://localhost:8081/swagger`
 -   **CommunicationHub Swagger UI**: `http://localhost:8082/swagger`
 -   **MaintenanceService Swagger UI**: `http://localhost:8083/swagger`
--   **MaintenanceService Swagger UI**: `http://localhost:8083/swagger`
 -   **FinanceService Swagger UI**: `http://localhost:8084/swagger`
+-   **SecurityService Swagger UI**: `http://localhost:8085/swagger`
 
 ## FinanceService Specifics
 
@@ -133,3 +139,37 @@ To receive real-time payment status updates, you must configure webhooks with yo
 
 *   **Stripe**: Configure a webhook endpoint pointing to `http://localhost:8080/api/finance/webhooks/stripe` (adjust for production URL) for `checkout.session.completed` events.
 *   **Xendit**: Configure a webhook endpoint pointing to `http://localhost:8080/api/finance/webhooks/xendit` (adjust for production URL) for `invoice paid` and `invoice expired` events.
+
+## SecurityService Specifics
+
+The SecurityService handles visitor management, check-ins, and parcel tracking.
+
+### Azure Blob Storage for Parcel Photos
+
+The SecurityService uses Azure Blob Storage to store photos of received parcels.
+
+Configure your Azure Storage connection string and container name in `SecurityService/SecurityService.Api/appsettings.Development.json`:
+
+```json
+{
+  "ConnectionStrings": {
+    "AzureStorage": "DefaultEndpointsProtocol=https;AccountName=<YOUR_ACCOUNT_NAME>;AccountKey=<YOUR_ACCOUNT_KEY>;EndpointSuffix=core.windows.net"
+  },
+  "AzureStorage": {
+    "ContainerName": "security-files"
+  }
+}
+```
+
+*   **`ConnectionStrings:AzureStorage`**: Your Azure Storage account connection string. For local development, `UseDevelopmentStorage=true` can be used with Azurite.
+*   **`AzureStorage:ContainerName`**: The name of the blob container where parcel photos will be stored (defaults to `security-files`).
+
+### Visitor Access Code / QR Code Generation
+
+The API generates a unique access code (string) for visitor passes. Frontend applications can then use this string to generate a scannable QR code image.
+
+### Guard Application
+
+Security personnel can use a dedicated application (mobile/tablet) to:
+*   Scan visitor QR codes to check guests in/out.
+*   Log new parcels and upload photos.

@@ -115,6 +115,36 @@ services:
     networks:
       - internal_network
 
+  communityconnect-securityservice-api-dev:
+    image: ${DOCKER_REGISTRY-}communityconnectsecurityserviceapi
+    build:
+      context: SecurityService
+      dockerfile: SecurityService.Api/SecurityService.Api.Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8085
+      - "ConnectionStrings:DefaultConnection=Server=communityconnect-db-dev;Database=SecurityServiceDb;User Id=sa;Password=5Tmb-_zJryCV)yLv)NNw;MultipleActiveResultSets=true;Encrypt=False;TrustServerCertificate=True;Integrated Security=False"
+      - "ConnectionStrings:AzureStorage=UseDevelopmentStorage=true"
+    volumes:
+      - .:/src
+    depends_on:
+      communityconnect-db-dev:
+        condition: service_healthy
+    profiles: ["development"]
+    entrypoint: ["dotnet", "SecurityService.Api.dll"]
+    command: []
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    ports:
+      - "8085:8085"
+    restart: on-failure
+    networks:
+      - internal_network
+
   communityconnect-gateway-dev:
     image: ${DOCKER_REGISTRY-}communityconnect-gateway
     build:
@@ -133,6 +163,8 @@ services:
       communityconnect-maintenanceservice-api-dev:
         condition: service_healthy # Add dependency for the new service
       communityconnect-financeservice-api-dev:
+        condition: service_healthy
+      communityconnect-securityservice-api-dev:
         condition: service_healthy
     profiles: ["development"]
     networks:
