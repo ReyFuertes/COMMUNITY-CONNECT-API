@@ -51,6 +51,11 @@ Community Connect is a microservices-based application designed to manage users,
     -   `DocumentService.Application`: Business logic for document uploads, category management, and permission checks.
     -   `DocumentService.Domain`: Domain entities (Document, DocumentCategory, DocumentPermission).
     -   `DocumentService.Infrastructure`: EF Core persistence, Azure Blob Storage for files, and UserAndUnitManagement integration client for permissions.
+-   `EngagementService`: A microservice for community engagement features like forums, polls, and event calendars.
+    -   `EngagementService.Api`: The API layer for posts, polls, and events.
+    -   `EngagementService.Application`: Business logic for managing posts, comments, polls, votes, and community events.
+    -   `EngagementService.Domain`: Domain entities (Post, Comment, Poll, PollOption, UserVote, CommunityEvent).
+    -   `EngagementService.Infrastructure`: EF Core persistence, integration clients for UserAndUnitManagement and CommunicationHub.
 
 ## Setup Instructions
 
@@ -81,6 +86,7 @@ Once the Docker containers are up and running, the services will be accessible a
 -   **SecurityService API**: `http://localhost:8085`
 -   **BookingService API**: `http://localhost:8086`
 -   **DocumentService API**: `http://localhost:8087`
+-   **EngagementService API**: `http://localhost:8088`
 
 ## Testing Real-Time Notifications
 
@@ -101,6 +107,7 @@ Each microservice provides Swagger UI for easy exploration:
 -   **SecurityService Swagger UI**: `http://localhost:8085/swagger`
 -   **BookingService Swagger UI**: `http://localhost:8086/swagger`
 -   **DocumentService Swagger UI**: `http://localhost:8087/swagger`
+-   **EngagementService Swagger UI**: `http://localhost:8088/swagger`
 
 ## FinanceService Specifics
 
@@ -275,3 +282,50 @@ The DocumentService needs to know the base URL of the `UserAndUnitManagement` se
 ### Version Control
 
 When a new version of a document is uploaded, the system automatically increments its version number, ensuring users always access the most current version. Older versions are retained in storage.
+
+---
+
+## EngagementService Specifics
+
+The EngagementService fosters community interaction through social features like a feed/forum, polls, and an events calendar.
+
+### Integrations
+
+*   **UserAndUnitManagement**: Integrates with this service to fetch user profiles and roles, which are crucial for post authorship, comment authorship, poll creation (admins only), event organization, and content moderation.
+*   **CommunicationHub**: Used for sending real-time notifications about new posts, new events, or important poll updates to relevant residents.
+
+### Configuration
+
+The EngagementService needs to know the base URLs of the services it integrates with. Configure these in `EngagementService/EngagementService.Api/appsettings.Development.json` (or environment variables for production):
+
+```json
+{
+  "UserAndUnitManagement": {
+    "BaseUrl": "http://communityconnect-userandunitmgmtapi-dev:8081"
+  },
+  "CommunicationHub": {
+    "BaseUrl": "http://communityconnect-communicationhub-api-dev:8082"
+  }
+}
+```
+
+*   **`UserAndUnitManagement:BaseUrl`**: The base URL of the UserAndUnitManagement API.
+*   **`CommunicationHub:BaseUrl`**: The base URL of the CommunicationHub API.
+
+### Community Feed / Forum
+
+*   Residents can create posts (general, buy/sell, news).
+*   Other residents can comment on posts.
+*   Admin/Property Managers have tools to moderate inappropriate content.
+
+### Polls & Surveys
+
+*   Admins can create polls with multiple options to gather resident feedback.
+*   Residents can vote on polls (one vote per poll per user).
+*   Poll results (vote counts for each option) are available.
+
+### Community Events Calendar
+
+*   Residents or organizers can propose community events (e.g., "Holiday Party," "Community Garage Sale").
+*   Events require admin approval to appear on the main calendar.
+*   The calendar provides details like event title, date, time, and location.
