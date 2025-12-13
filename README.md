@@ -31,6 +31,11 @@ Community Connect is a microservices-based application designed to manage users,
     -   `MaintenanceService.Application`: Business logic and MediatR handlers for work orders.
     -   `MaintenanceService.Domain`: Domain entities (WorkOrder, Attachments) and enums.
     -   `MaintenanceService.Infrastructure`: EF Core persistence and repositories.
+-   `FinanceService`: A microservice for managing financials, including billing, payments, and expense tracking.
+    -   `FinanceService.Api`: The API layer, handling payment initiation and webhooks.
+    -   `FinanceService.Application`: Business logic for payment processing, invoicing, and expense management.
+    -   `FinanceService.Domain`: Domain entities (Invoice, Payment, Expense) and interfaces.
+    -   `FinanceService.Infrastructure`: Data access, payment gateway integrations (Stripe, Xendit), and Azure Blob Storage for receipts.
 
 ## Setup Instructions
 
@@ -56,6 +61,8 @@ Once the Docker containers are up and running, the services will be accessible a
 -   **API Gateway**: `http://localhost:8080`
 -   **UserAndUnitManagement API**: `http://localhost:8081`
 -   **CommunicationHub API**: `http://localhost:8082`
+-   **MaintenanceService API**: `http://localhost:8083`
+-   **FinanceService API**: `http://localhost:8084`
 
 ## Testing Real-Time Notifications
 
@@ -71,3 +78,58 @@ Each microservice provides Swagger UI for easy exploration:
 
 -   **UserAndUnitManagement Swagger UI**: `http://localhost:8081/swagger`
 -   **CommunicationHub Swagger UI**: `http://localhost:8082/swagger`
+-   **MaintenanceService Swagger UI**: `http://localhost:8083/swagger`
+-   **MaintenanceService Swagger UI**: `http://localhost:8083/swagger`
+-   **FinanceService Swagger UI**: `http://localhost:8084/swagger`
+
+## FinanceService Specifics
+
+The FinanceService handles all financial transactions, including online payments and expense tracking.
+
+### Payment Gateway Configuration
+
+For online payments to function, you must configure the API keys for Stripe and Xendit (for local e-wallets like GCash, PayMaya, GrabPay, GoTyme). These settings are found in `FinanceService/FinanceService.Api/appsettings.Development.json` and should be managed securely in production environments (e.g., Kubernetes secrets, Azure Key Vault).
+
+Example `appsettings.json` (replace placeholders with actual keys):
+
+```json
+{
+  "Stripe": {
+    "SecretKey": "sk_live_YOUR_STRIPE_SECRET_KEY",
+    "SuccessUrl": "http://yourfrontend.com/payment/success",
+    "CancelUrl": "http://yourfrontend.com/payment/cancel"
+  },
+  "Xendit": {
+    "SecretKey": "xnd_live_YOUR_XENDIT_SECRET_KEY",
+    "SuccessUrl": "http://yourfrontend.com/payment/success",
+    "FailureUrl": "http://yourfrontend.com/payment/failure"
+  }
+}
+```
+
+### Azure Blob Storage for Proofs of Payment
+
+The FinanceService uses Azure Blob Storage for storing uploaded proofs of payment (e.g., bank transfer receipts).
+
+Configure your Azure Storage connection string and container name in `FinanceService/FinanceService.Api/appsettings.Development.json`:
+
+```json
+{
+  "ConnectionStrings": {
+    "AzureStorage": "DefaultEndpointsProtocol=https;AccountName=<YOUR_ACCOUNT_NAME>;AccountKey=<YOUR_ACCOUNT_KEY>;EndpointSuffix=core.windows.net"
+  },
+  "AzureStorage": {
+    "ContainerName": "payment-proofs"
+  }
+}
+```
+
+*   **`ConnectionStrings:AzureStorage`**: Your Azure Storage account connection string. For local development, `UseDevelopmentStorage=true` can be used with Azurite.
+*   **`AzureStorage:ContainerName`**: The name of the blob container where receipts will be stored (defaults to `payment-proofs`).
+
+### Webhook Endpoints
+
+To receive real-time payment status updates, you must configure webhooks with your payment providers:
+
+*   **Stripe**: Configure a webhook endpoint pointing to `http://localhost:8080/api/finance/webhooks/stripe` (adjust for production URL) for `checkout.session.completed` events.
+*   **Xendit**: Configure a webhook endpoint pointing to `http://localhost:8080/api/finance/webhooks/xendit` (adjust for production URL) for `invoice paid` and `invoice expired` events.

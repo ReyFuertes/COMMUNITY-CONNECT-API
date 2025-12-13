@@ -86,6 +86,35 @@ services:
     networks:
       - internal_network
 
+  communityconnect-financeservice-api-dev:
+    image: ${DOCKER_REGISTRY-}communityconnectfinanceserviceapi
+    build:
+      context: FinanceService
+      dockerfile: FinanceService.Api/FinanceService.Api.Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8084
+      - "ConnectionStrings:DefaultConnection=Server=communityconnect-db-dev;Database=FinanceServiceDb;User Id=sa;Password=5Tmb-_zJryCV)yLv)NNw;MultipleActiveResultSets=true;Encrypt=False;TrustServerCertificate=True;Integrated Security=False"
+    volumes:
+      - .:/src
+    depends_on:
+      communityconnect-db-dev:
+        condition: service_healthy
+    profiles: ["development"]
+    entrypoint: ["dotnet", "FinanceService.Api.dll"]
+    command: []
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    ports:
+      - "8084:8084"
+    restart: on-failure
+    networks:
+      - internal_network
+
   communityconnect-gateway-dev:
     image: ${DOCKER_REGISTRY-}communityconnect-gateway
     build:
@@ -103,6 +132,8 @@ services:
         condition: service_healthy
       communityconnect-maintenanceservice-api-dev:
         condition: service_healthy # Add dependency for the new service
+      communityconnect-financeservice-api-dev:
+        condition: service_healthy
     profiles: ["development"]
     networks:
       - internal_network
