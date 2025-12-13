@@ -46,6 +46,11 @@ Community Connect is a microservices-based application designed to manage users,
     -   `BookingService.Application`: Business logic for creating bookings, applying rules, and managing amenities.
     -   `BookingService.Domain`: Domain entities (Amenity, Booking, BookingRule).
     -   `BookingService.Infrastructure`: EF Core persistence, integration clients for FinanceService and CommunicationHub.
+-   `DocumentService`: A microservice for central document repository, permission-controlled access, and version control.
+    -   `DocumentService.Api`: The API layer for document and category management.
+    -   `DocumentService.Application`: Business logic for document uploads, category management, and permission checks.
+    -   `DocumentService.Domain`: Domain entities (Document, DocumentCategory, DocumentPermission).
+    -   `DocumentService.Infrastructure`: EF Core persistence, Azure Blob Storage for files, and UserAndUnitManagement integration client for permissions.
 
 ## Setup Instructions
 
@@ -75,6 +80,7 @@ Once the Docker containers are up and running, the services will be accessible a
 -   **FinanceService API**: `http://localhost:8084`
 -   **SecurityService API**: `http://localhost:8085`
 -   **BookingService API**: `http://localhost:8086`
+-   **DocumentService API**: `http://localhost:8087`
 
 ## Testing Real-Time Notifications
 
@@ -94,6 +100,7 @@ Each microservice provides Swagger UI for easy exploration:
 -   **FinanceService Swagger UI**: `http://localhost:8084/swagger`
 -   **SecurityService Swagger UI**: `http://localhost:8085/swagger`
 -   **BookingService Swagger UI**: `http://localhost:8086/swagger`
+-   **DocumentService Swagger UI**: `http://localhost:8087/swagger`
 
 ## FinanceService Specifics
 
@@ -227,3 +234,44 @@ These rules are checked automatically when a resident attempts to create a booki
 Some amenities can be configured to require admin approval for bookings, while others can be auto-approved.
 
 ---
+
+## DocumentService Specifics
+
+The DocumentService acts as a central digital filing cabinet for all important community documents, offering permission-controlled access and version control.
+
+### Integrations
+
+*   **UserAndUnitManagement**: Integrates with this service to fetch user roles, which are crucial for permission checks (who can view/upload documents).
+*   **Azure Blob Storage**: Used as the backend storage for the actual document files, ensuring scalability and reliability.
+
+### Configuration
+
+The DocumentService needs to know the base URL of the `UserAndUnitManagement` service and Azure Storage details. Configure these in `DocumentService/DocumentService.Api/appsettings.Development.json` (or environment variables for production):
+
+```json
+{
+  "ConnectionStrings": {
+    "AzureStorage": "DefaultEndpointsProtocol=https;AccountName=<YOUR_ACCOUNT_NAME>;AccountKey=<YOUR_ACCOUNT_KEY>;EndpointSuffix=core.windows.net"
+  },
+  "AzureStorage": {
+    "ContainerName": "documents"
+  },
+  "UserAndUnitManagement": {
+    "BaseUrl": "http://communityconnect-userandunitmgmtapi-dev:8081"
+  }
+}
+```
+
+*   **`ConnectionStrings:AzureStorage`**: Your Azure Storage account connection string. For local development, `UseDevelopmentStorage=true` can be used with Azurite.
+*   **`AzureStorage:ContainerName`**: The name of the blob container where documents will be stored (defaults to `documents`).
+*   **`UserAndUnitManagement:BaseUrl`**: The base URL of the UserAndUnitManagement API.
+
+### Document Categories and Permissions
+
+*   **Categories**: Documents are organized into hierarchical categories (folders).
+*   **Permissions**: Administrators can define `CanView` and `CanUpload` permissions for each category, assignable to different `UserRole`s (e.g., Owners, Tenants, Property Managers).
+*   **Access Control**: All document access (viewing/downloading, uploading) is checked against these defined permissions.
+
+### Version Control
+
+When a new version of a document is uploaded, the system automatically increments its version number, ensuring users always access the most current version. Older versions are retained in storage.
