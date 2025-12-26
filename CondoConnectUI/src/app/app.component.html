@@ -1,5 +1,5 @@
 <div class="layout-wrapper" [ngClass]="{'sidebar-collapsed': isSidebarCollapsed}">
-  <!-- Left Sidebar -->
+  <!-- Left Sidebar (Navigation) -->
   <aside class="layout-sidebar" [ngClass]="{'collapsed': isSidebarCollapsed}">
     <div class="sidebar-header">
       <div class="brand-logo" *ngIf="!isSidebarCollapsed">
@@ -34,7 +34,7 @@
     </div>
   </aside>
 
-  <!-- Main Content Center -->
+  <!-- Main Content Area -->
   <main class="layout-main" [ngClass]="{'collapsed': isSidebarCollapsed}">
     <header class="layout-topbar">
       <div class="topbar-left">
@@ -60,20 +60,16 @@
     </header>
 
     <div class="layout-content-scroll">
-      <div class="main-content-flex">
-        <div class="router-outlet-container">
-          <div class="content-padding">
-            <router-outlet></router-outlet>
-          </div>
-        </div>
-        
-        <!-- Global Integrated Support Panel (Full Height) -->
-        <aside class="support-panel-sidebar">
-          <app-floating-chat></app-floating-chat>
-        </aside>
+      <div class="content-padding">
+        <router-outlet></router-outlet>
       </div>
     </div>
   </main>
+
+  <!-- Right Sidebar (Security Support) - Full Height Fixed -->
+  <aside class="layout-support-sidebar">
+    <app-floating-chat></app-floating-chat>
+  </aside>
 
   <!-- Popovers -->
   <p-popover #op styleClass="notification-popover" appendTo="body" [style]="{'width': '320px'}">
@@ -95,7 +91,7 @@
         </div>
       </div>
       <div class="notification-footer">
-        <p-button label="View all" [text]="true" class="full-width-btn"></p-button>
+        <p-button label="View all notifications" [text]="true" class="full-width-btn"></p-button>
       </div>
     </div>
   </p-popover>

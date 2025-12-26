@@ -53,6 +53,12 @@ html, body {
     z-index: 3000 !important;
 }
 
+.mini-tooltip .p-tooltip-text {
+    font-size: 0.75rem !important;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: 4px !important;
+}
+
 * {
   box-sizing: border-box;
 }
