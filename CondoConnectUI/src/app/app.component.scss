@@ -1,0 +1,218 @@
+// Layout SCSS - Professional Mirror Sidebars
+@import "./styleguide/index";
+
+$sidebar-width: 260px;
+$sidebar-collapsed-width: 80px;
+$support-sidebar-width: 350px;
+$topbar-height: 70px;
+$primary-blue: #4A90E2;
+$border-color: #E2E8F0;
+$text-main: #1E293B;
+$text-muted: #64748B;
+
+.layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+// Global Sidebar Base
+.layout-sidebar, .layout-support-sidebar {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  background-color: $sidebar-green-base;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+// Left Sidebar
+.layout-sidebar {
+  width: $sidebar-width;
+  left: 0;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.collapsed {
+    width: $sidebar-collapsed-width;
+    .sidebar-header { justify-content: center; padding: 0; }
+    .nav-item { justify-content: center; padding: 0.85rem 0; gap: 0; }
+    .user-pill { padding: 0.75rem 0; }
+  }
+}
+
+// Right Sidebar (Support)
+.layout-support-sidebar {
+  width: $support-sidebar-width;
+  right: 0;
+  background-color: white;
+  border-left: 1px solid $border-color;
+}
+
+// Shared Sidebar Header
+.sidebar-header {
+  height: $topbar-height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  .brand-logo, .brand-logo-collapsed {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .brand-logo-img {
+      height: 32px;
+      width: 32px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .brand-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+    }
+  }
+}
+
+// Left Sidebar Navigation
+.sidebar-nav {
+  flex: 1;
+  padding: 2rem 0.75rem;
+  overflow-y: auto;
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 0.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease;
+    gap: 1.25rem;
+
+    &:hover { background-color: rgba(255, 255, 255, 0.05); color: white; }
+    &.active-link { background-color: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); color: white; font-weight: 700; .nav-badge { background-color: white; color: $sidebar-green-base; } }
+
+    .nav-icon { font-size: 1.2rem; min-width: 24px; text-align: center; }
+    .nav-label { font-size: 0.95rem; white-space: nowrap; overflow: hidden; flex: 1; }
+    .nav-badge { background-color: #DC3545; color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
+  }
+}
+
+.sidebar-footer {
+  padding: 1.25rem 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  .user-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    &.justify-center { justify-content: center; }
+    .user-avatar-sm { width: 32px; height: 32px; background-color: white; color: $sidebar-green-base; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+    .user-meta { display: flex; flex-direction: column; overflow: hidden; .u-name { font-size: 0.85rem; font-weight: 700; color: white; white-space: nowrap; } .u-role { font-size: 0.75rem; color: rgba(255, 255, 255, 0.7); white-space: nowrap; } }
+  }
+}
+
+// Layout Main Area
+.layout-main {
+  flex: 1;
+  margin-left: $sidebar-width;
+  margin-right: $support-sidebar-width;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--bg-body);
+
+  &.collapsed { margin-left: $sidebar-collapsed-width; }
+}
+
+.layout-topbar {
+  height: $topbar-height;
+  background-color: var(--bg-topbar);
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  flex-shrink: 0;
+  z-index: 90;
+}
+
+.topbar-left, .topbar-right { display: flex; align-items: center; gap: 1.5rem; }
+
+.topbar-toggle-icon {
+  color: $text-muted; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
+  &:hover { color: $sidebar-green-base; background-color: rgba(25, 135, 84, 0.05); }
+  i { font-size: 1.2rem; }
+}
+
+.search-wrapper {
+  display: flex; align-items: center; background-color: white; border: 1px solid $border-color; border-radius: 10px; padding: 0 1rem; width: 340px; transition: all 0.2s;
+  &:focus-within { border-color: $sidebar-green-base; box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.05); }
+  .search-hint { color: $text-muted; margin-right: 0.75rem; }
+  .topbar-search { background: transparent; border: none; padding: 0.7rem 0; width: 100%; font-size: 0.9rem; color: $text-main; &:focus { outline: none; } }
+}
+
+::ng-deep .context-dropdown { background-color: #F1F5F9; border: none; border-radius: 10px; .p-select-label { padding: 0.5rem 1.25rem; font-size: 0.9rem; color: $text-main; font-weight: 700; } }
+
+.topbar-icons {
+  display: flex; align-items: center; gap: 1.5rem; color: $text-muted;
+  .bell-trigger { cursor: pointer; position: relative; display: flex; align-items: center; transition: transform 0.2s; &:hover { transform: scale(1.1); } }
+  i { font-size: 1.25rem; cursor: pointer; transition: color 0.2s; &:hover { color: #4A90E2; } }
+}
+
+.layout-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  background-color: var(--bg-body);
+}
+
+.content-padding {
+  padding: 2.5rem; /* Increased padding for professional spacing */
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Notification Popover Fixes */
+::ng-deep .p-popover {
+  z-index: 2000 !important; /* Ensure it's above sidebars */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 12px !important;
+  border: 1px solid $border-color !important;
+  background: white !important;
+
+  .p-popover-content {
+    padding: 0 !important;
+  }
+}
+
+.notification-container {
+  display: flex;
+  flex-direction: column;
+  .notification-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid $border-color; .n-title { font-weight: 700; font-size: 1rem; color: $text-main; } }
+  .notification-list { 
+    max-height: 350px; overflow-y: auto;
+    .n-item { 
+      display: flex; gap: 1rem; padding: 1rem 1.5rem; border-bottom: 1px solid #F1F5F9; cursor: pointer; transition: background-color 0.2s;
+      &:hover { background-color: #F8FAFC; }
+      &:last-child { border-bottom: none; }
+      .n-icon-box { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; i { font-size: 1rem; } }
+      .n-content { display: flex; flex-direction: column; gap: 0.25rem; .n-item-title { font-weight: 700; font-size: 0.9rem; color: $text-main; } .n-item-desc { font-size: 0.8rem; color: $text-muted; line-height: 1.4; } .n-item-time { font-size: 0.75rem; color: #94A3B8; margin-top: 0.25rem; } }
+    }
+  }
+  .notification-footer { padding: 0.5rem; border-top: 1px solid $border-color; text-align: center; ::ng-deep .full-width-btn { width: 100%; .p-button-label { font-weight: 700; } } }
+}

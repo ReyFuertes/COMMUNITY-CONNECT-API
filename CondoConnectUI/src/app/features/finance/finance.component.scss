@@ -1,0 +1,36 @@
+// Finance SCSS
+$border-color: #E2E8F0;
+$text-main: #1E293B;
+$text-muted: #64748B;
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background-color: white;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
+  .stat-icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem; color: white;
+  }
+
+  &.green .stat-icon { background-color: #198754; }
+  &.red .stat-icon { background-color: #DC3545; }
+
+  .stat-content {
+    display: flex; flex-direction: column;
+    .stat-label { font-size: 0.85rem; font-weight: 700; color: $text-muted; text-transform: uppercase; }
+    .stat-value { font-size: 1.5rem; font-weight: 700; color: $text-main; }
+  }
+}

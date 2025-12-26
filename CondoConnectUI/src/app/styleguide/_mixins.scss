@@ -1,0 +1,16 @@
+// _mixins.scss
+@import 'variables';
+
+@mixin card-base {
+  background-color: $bg-card;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+}
+
+@mixin glass-effect {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

@@ -1,0 +1,234 @@
+@import "primeicons/primeicons.css";
+@import "app/styleguide/index";
+
+/* --- CSS Variables Populated from Styleguide --- */
+:root {
+  --primary-blue: #{$primary-blue};
+  --primary-green: #{$primary-green};
+  --primary-red: #{$primary-red};
+  --primary-orange: #{$primary-orange};
+  --bg-body: #{$bg-body};
+  --bg-topbar: #{$bg-topbar};
+  --bg-card: #{$bg-card};
+  --text-main: #{$text-main};
+  --text-muted: #{$text-muted};
+  --border-color: #{$border-color};
+  --font-family: #{$font-family};
+}
+
+/* --- Global Reset & Font --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: $bg-body;
+  color: $text-main;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  font-family: $font-family;
+}
+
+:not(.pi) {
+    font-family: $font-family;
+}
+
+.p-component, .p-button, .p-inputtext, .p-datatable, .p-tag {
+    font-family: $font-family !important;
+}
+
+.pi {
+    font-family: 'PrimeIcons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure PrimeNG Overlays (Popovers, Tooltips) are above fixed sidebars */
+.p-popover, .p-tooltip {
+    z-index: 3000 !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $text-main;
+  margin-top: 0;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: fadein 0.3s ease-out;
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+    color: $text-main;
+  }
+
+  .page-desc {
+    color: $text-muted;
+    margin: 0.25rem 0 0 0;
+    font-size: 1rem;
+  }
+}
+
+.table-card {
+  background-color: white;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+}
+
+/* --- PrimeNG Global Overrides using Styleguide tokens --- */
+
+/* --- PrimeNG Button Overrides (Green, Blue, Red, Orange Only) --- */
+
+.p-button {
+  border-radius: $border-radius-sm !important;
+  background-color: $primary-blue !important; /* Default to Blue */
+  border-color: $primary-blue !important;
+  color: white !important;
+  @include font-bold;
+  transition: all 0.2s ease !important;
+}
+
+.p-button:hover {
+  filter: brightness(1.1) !important;
+}
+
+.p-button.p-button-success {
+  background-color: $primary-green !important;
+  border-color: $primary-green !important;
+}
+
+.p-button.p-button-info {
+  background-color: $primary-blue !important;
+  border-color: $primary-blue !important;
+}
+
+.p-button.p-button-danger {
+  background-color: $primary-red !important;
+  border-color: $primary-red !important;
+}
+
+.p-button.p-button-warn {
+  background-color: $primary-orange !important;
+  border-color: $primary-orange !important;
+}
+
+.p-button.p-button-secondary {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+}
+
+.p-inputtext {
+  border-radius: $border-radius-sm !important;
+  border: 1px solid $border-color !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.95rem !important;
+}
+
+.p-card {
+  @include card-base;
+}
+
+.p-datatable {
+
+  .p-datatable-thead > tr > th {
+
+    background-color: $bg-topbar !important;
+
+    color: $text-muted !important;
+
+    @include font-bold;
+
+    text-transform: uppercase !important;
+
+    font-size: 0.75rem !important;
+
+    letter-spacing: 0.05em !important;
+
+    padding: 0.75rem 1rem !important; /* Reduced padding */
+
+    border-bottom: 1px solid var(--border-color) !important;
+
+
+
+    &:last-child {
+
+      text-align: right !important;
+
+    }
+
+  }
+
+
+
+  .p-datatable-tbody > tr {
+
+    background-color: $bg-card !important;
+
+    
+
+    &:hover {
+
+      background-color: $bg-topbar !important;
+
+    }
+
+
+
+    > td {
+
+      padding: 0.75rem 1rem !important; /* Reduced padding */
+
+      border-bottom: 1px solid var(--border-color) !important;
+
+
+
+      &:last-child {
+
+        text-align: right !important;
+
+      }
+
+    }
+
+  }
+
+}
+
+.p-tag {
+  border-radius: 6px !important;
+  @include font-bold;
+  padding: 0.25rem 0.6rem !important;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }

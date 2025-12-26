@@ -1,0 +1,47 @@
+// Engagement SCSS
+$border-color: #E2E8F0;
+$text-main: #1E293B;
+$text-muted: #64748B;
+
+.feed-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+}
+
+.post-card {
+  background-color: white;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .post-avatar { background-color: #F1F5F9; color: #4A90E2; font-weight: 700; }
+    .post-meta {
+      display: flex;
+      flex-direction: column;
+      .post-author { font-weight: 700; color: $text-main; font-size: 0.95rem; }
+      .post-time { font-size: 0.8rem; color: $text-muted; }
+    }
+  }
+
+  .post-content {
+    margin-bottom: 1.5rem;
+    .post-title { font-size: 1.1rem; font-weight: 700; color: $text-main; margin: 0 0 0.5rem 0; }
+    .post-text { font-size: 0.95rem; color: #475569; line-height: 1.5; margin: 0; }
+  }
+
+  .post-footer {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #F1F5F9;
+  }
+}

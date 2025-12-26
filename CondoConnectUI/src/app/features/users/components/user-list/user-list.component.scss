@@ -1,0 +1,86 @@
+// User List SCSS - Clean SaaS Green Theme
+$primary-green: #50C878;
+$text-main: #1E293B;
+$text-muted: #64748B;
+$border-color: #E2E8F0;
+
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    background-color: #F1F5F9;
+    border-radius: 8px;
+    padding: 0 1rem;
+    width: 300px;
+
+    i { color: $text-muted; margin-right: 0.75rem; }
+    input { background: transparent; border: none; padding: 0.6rem 0; width: 100%; font-size: 0.9rem; }
+    input:focus { outline: none; }
+  }
+
+  .filter-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+}
+
+.user-info-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  ::ng-deep .user-avatar-green {
+    background-color: rgba(80, 200, 120, 0.1);
+    color: $primary-green;
+    font-weight: 700;
+  }
+
+  .user-name-info {
+    display: flex;
+    flex-direction: column;
+    
+    .full-name { font-weight: 700; color: $text-main; }
+    .role-sub { font-size: 0.8rem; color: $text-muted; }
+  }
+}
+
+.email-text { color: $text-muted; font-size: 0.9rem; }
+
+.role-pill {
+  display: inline-flex;
+  padding: 0.25rem 0.75rem;
+  background-color: #F1F5F9;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.status-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    &.active { background-color: #10B981; box-shadow: 0 0 0 2px #D1FAE5; }
+    &.inactive { background-color: #EF4444; box-shadow: 0 0 0 2px #FEE2E2; }
+  }
+
+  .status-label { font-size: 0.85rem; font-weight: 700; color: $text-main; }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.empty-msg { text-align: center; padding: 3rem; color: $text-muted; }

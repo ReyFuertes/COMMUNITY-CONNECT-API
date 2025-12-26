@@ -1,0 +1,102 @@
+<div class="layout-wrapper" [ngClass]="{'sidebar-collapsed': isSidebarCollapsed}">
+  <!-- Left Sidebar -->
+  <aside class="layout-sidebar" [ngClass]="{'collapsed': isSidebarCollapsed}">
+    <div class="sidebar-header">
+      <div class="brand-logo" *ngIf="!isSidebarCollapsed">
+        <img src="assets/images/logo.png" alt="Community Connect Logo" class="brand-logo-img">
+        <span class="brand-name">Community Connect</span>
+      </div>
+      <div class="brand-logo-collapsed" *ngIf="isSidebarCollapsed">
+        <img src="assets/images/logo.png" alt="CC" class="brand-logo-img">
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a *ngFor="let item of items" 
+         [routerLink]="item.routerLink" 
+         routerLinkActive="active-link" 
+         class="nav-item"
+         [pTooltip]="isSidebarCollapsed ? item.label : ''"
+         tooltipPosition="right"
+         pRipple>
+        <i [class]="item.icon" class="nav-icon"></i>
+        <span class="nav-label" *ngIf="!isSidebarCollapsed">{{item.label}}</span>
+        <span class="nav-badge" *ngIf="!isSidebarCollapsed && item.badge">{{item.badge}}</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-pill" [ngClass]="{'justify-center': isSidebarCollapsed}">
+        <div class="user-avatar-sm">RF</div>
+        <div class="user-meta" *ngIf="!isSidebarCollapsed">
+          <span class="u-name">Rey Fuertes</span>
+          <span class="u-role">Admin</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Center -->
+  <main class="layout-main" [ngClass]="{'collapsed': isSidebarCollapsed}">
+    <header class="layout-topbar">
+      <div class="topbar-left">
+        <div class="topbar-toggle-icon" (click)="toggleSidebar()" pRipple>
+          <i class="pi pi-bars"></i>
+        </div>
+        <div class="search-wrapper">
+          <i class="pi pi-search search-hint"></i>
+          <input type="text" placeholder="Quick search..." class="topbar-search">
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="property-context">
+          <p-select [options]="properties" [(ngModel)]="selectedProperty" styleClass="context-dropdown"></p-select>
+        </div>
+        <div class="topbar-icons">
+          <div class="bell-trigger" (click)="op.toggle($event)">
+            <i class="pi pi-bell notification-icon" pBadge value="3" severity="danger"></i>
+          </div>
+          <i class="pi pi-question-circle help-icon"></i>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout-content-scroll">
+      <div class="main-content-flex">
+        <div class="router-outlet-container">
+          <div class="content-padding">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+        
+        <!-- Global Integrated Support Panel (Full Height) -->
+        <aside class="support-panel-sidebar">
+          <app-floating-chat></app-floating-chat>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Popovers -->
+  <p-popover #op styleClass="notification-popover" appendTo="body" [style]="{'width': '320px'}">
+    <div class="notification-container">
+      <div class="notification-header">
+        <span class="n-title">Notifications</span>
+        <p-button label="Mark all read" [text]="true" size="small"></p-button>
+      </div>
+      <div class="notification-list">
+        <div class="n-item" *ngFor="let n of notifications">
+          <div class="n-icon-box" [style.backgroundColor]="n.color + '1A'" [style.color]="n.color">
+            <i [class]="n.icon"></i>
+          </div>
+          <div class="n-content">
+            <div class="n-item-title">{{n.title}}</div>
+            <div class="n-item-desc">{{n.desc}}</div>
+            <div class="n-item-time">{{n.time}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="notification-footer">
+        <p-button label="View all" [text]="true" class="full-width-btn"></p-button>
+      </div>
+    </div>
+  </p-popover>
+</div>

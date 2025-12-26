@@ -1,0 +1,83 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Unit Inventory</h1>
+      <p class="page-desc">Track status and occupancy of all property units.</p>
+    </div>
+    <div class="header-actions">
+      <p-button label="New Unit" icon="pi pi-plus" severity="info"></p-button>
+    </div>
+  </header>
+
+  <div class="table-card">
+    <div class="card-header">
+      <div class="search-box">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText placeholder="Search units..." class="table-search">
+      </div>
+      <div class="filter-actions">
+        <p-select [options]="buildings" [(ngModel)]="selectedBuilding" placeholder="Building" [showClear]="true" styleClass="building-filter"></p-select>
+        <p-button icon="pi pi-refresh" [outlined]="true" severity="secondary"></p-button>
+      </div>
+    </div>
+
+    <p-table [value]="(units$ | async) ?? []" [loading]="(loading$ | async) ?? false" 
+             [tableStyle]="{'min-width': '50rem'}" 
+             styleClass="p-datatable-gridlines-none"
+             selectionMode="single" 
+             [(selection)]="selectedUnit" (onRowSelect)="onRowSelect($event)">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 30%">Unit Name</th>
+          <th style="width: 30%">Address</th>
+          <th style="width: 20%">Status</th>
+          <th style="width: 20%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-unit>
+        <tr [pSelectableRow]="unit" class="clickable-row">
+          <td class="unit-name-cell">{{ unit.name }}</td>
+          <td class="addr-cell">{{ unit.address }}</td>
+          <td>
+            <p-tag [value]="getStatusName(unit.status)" [severity]="getStatusSeverity(unit.status)"></p-tag>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="secondary" size="small" (onClick)="$event.stopPropagation()"></p-button>
+              <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" size="small" (onClick)="delete(unit.id, $event)"></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="empty-msg">No units found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-drawer [(visible)]="visibleSidebar" position="right" styleClass="unit-detail-drawer">
+  <ng-template pTemplate="header">
+    <div class="drawer-header">
+      <i class="pi pi-building"></i>
+      <span>Details</span>
+    </div>
+  </ng-template>
+  <div *ngIf="selectedUnit" class="drawer-body">
+    <div class="unit-hero">
+      <div class="unit-avatar"><i class="pi pi-home"></i></div>
+      <h2 class="unit-title">{{selectedUnit.name}}</h2>
+      <p-tag [value]="getStatusName(selectedUnit.status)" [severity]="getStatusSeverity(selectedUnit.status)"></p-tag>
+    </div>
+
+    <div class="detail-section">
+      <h4 class="section-label">Occupancy</h4>
+      <div class="tenant-card">
+        <span class="t-name">John Doe</span>
+        <span class="t-since">Since Jan 2024</span>
+      </div>
+    </div>
+  </div>
+</p-drawer>

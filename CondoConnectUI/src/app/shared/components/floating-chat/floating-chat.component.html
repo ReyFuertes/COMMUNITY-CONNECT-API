@@ -1,0 +1,70 @@
+<div class="chat-panel shadow-sm">
+  <!-- Chat Content -->
+  <div class="chat-content">
+    <header class="panel-header">
+      <div class="header-user">
+        <span class="u-name">{{activeConversation.participantName}}</span>
+        <span class="u-status">{{activeConversation.id === 'general' ? 'Team Channel' : activeConversation.status}}</span>
+      </div>
+      <div class="header-search-trigger">
+        <i class="pi pi-search"></i>
+        <span class="search-text">Search</span>
+      </div>
+    </header>
+
+    <div class="message-container">
+      <div class="msg-group" *ngFor="let msg of messagesMap[activeConversation.id]" [ngClass]="{'me': msg.isMe}">
+        <div class="bubble-wrapper">
+          <span class="sender-label" *ngIf="activeConversation.id === 'general' && !msg.isMe">{{msg.senderName}}</span>
+          <div class="msg-bubble" [ngClass]="msg.isMe ? 'bubble-me' : 'bubble-other'">
+            {{msg.content}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="panel-footer">
+      <div class="footer-input-wrapper">
+        <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Reply..." class="panel-input">
+        <button class="panel-send" (click)="sendMessage()" pRipple>
+          <i class="pi pi-send"></i>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Conversation Sidebar (Mini) -->
+  <div class="conv-sidebar">
+    <div class="sidebar-top">
+      <i class="pi pi-comments support-icon"></i>
+    </div>
+    <div class="conv-icons">
+      <div class="mini-conv" *ngFor="let conv of conversations" 
+           [ngClass]="{'active': activeConversation.id === conv.id}"
+           (click)="selectConversation(conv)"
+           [pTooltip]="conv.participantName"
+           tooltipPosition="left">
+        
+        <div class="avatar-container">
+          <div *ngIf="conv.id === 'general'" class="general-avatar" [style.backgroundColor]="conv.color">
+            <i class="pi pi-users"></i>
+          </div>
+          <p-avatar *ngIf="conv.id !== 'general' && conv.image" 
+                    [image]="conv.image" 
+                    shape="circle" 
+                    size="normal" 
+                    styleClass="mini-avatar-img"></p-avatar>
+          <p-avatar *ngIf="conv.id !== 'general' && !conv.image" 
+                    [label]="getInitials(conv.participantName)" 
+                    shape="circle" 
+                    size="normal" 
+                    [style.backgroundColor]="conv.color"
+                    styleClass="mini-avatar-initials"></p-avatar>
+          
+          <span class="mini-status" [ngClass]="conv.status" *ngIf="conv.id !== 'general'"></span>
+          <span class="mini-badge" *ngIf="conv.unreadCount > 0">{{conv.unreadCount}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

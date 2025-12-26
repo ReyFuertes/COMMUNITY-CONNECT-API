@@ -1,0 +1,38 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Document Management</h1>
+      <p class="page-desc">Access community guidelines and property handbooks.</p>
+    </div>
+    <div class="header-actions">
+      <p-button label="Upload" icon="pi pi-upload" severity="secondary"></p-button>
+    </div>
+  </header>
+
+  <div class="table-card">
+    <p-table [value]="docs" styleClass="p-datatable-gridlines-none">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Document Name</th>
+          <th>Category</th>
+          <th>Size</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-doc>
+        <tr>
+          <td class="font-bold">
+            <i class="pi pi-file-pdf text-red-500 mr-2"></i> {{doc.name}}
+          </td>
+          <td>{{doc.category}}</td>
+          <td>{{doc.size}}</td>
+          <td>{{doc.date}}</td>
+          <td>
+            <p-button icon="pi pi-download" [text]="true" severity="secondary"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

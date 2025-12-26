@@ -1,0 +1,34 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Security & Visitor Management</h1>
+      <p class="page-desc">Monitor entry logs and manage visitor passes.</p>
+    </div>
+    <div class="header-actions">
+      <p-button label="Add Visitor" icon="pi pi-user-plus" severity="danger"></p-button>
+    </div>
+  </header>
+
+  <div class="table-card">
+    <p-table [value]="logs" styleClass="p-datatable-gridlines-none">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Visitor Name</th>
+          <th>Plate Number</th>
+          <th>Host Unit</th>
+          <th>Time In</th>
+          <th>Status</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-log>
+        <tr>
+          <td class="font-bold">{{log.name}}</td>
+          <td>{{log.plate}}</td>
+          <td>{{log.unit}}</td>
+          <td>{{log.time}}</td>
+          <td><p-tag [value]="log.status" [severity]="log.status === 'Inside' ? 'success' : 'secondary'"></p-tag></td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

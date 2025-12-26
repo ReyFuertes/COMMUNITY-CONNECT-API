@@ -1,0 +1,80 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Dashboard Overview</h1>
+      <p class="page-desc">Real-time status and operational metrics for the community.</p>
+    </div>
+  </header>
+
+  <div class="stats-overview">
+    <div class="stat-card blue">
+      <div class="stat-icon"><i class="pi pi-building"></i></div>
+      <div class="stat-detail">
+        <span class="label">Total Units</span>
+        <div class="value">450</div>
+      </div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-icon"><i class="pi pi-users"></i></div>
+      <div class="stat-detail">
+        <span class="label">Residents</span>
+        <div class="value">1,240</div>
+      </div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-icon"><i class="pi pi-calendar-plus"></i></div>
+      <div class="stat-detail">
+        <span class="label">Bookings</span>
+        <div class="value">24</div>
+      </div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-icon"><i class="pi pi-verified"></i></div>
+      <div class="stat-detail">
+        <span class="label">Security</span>
+        <div class="value">Active</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-dashboard-grid">
+    <div class="chart-section">
+      <div class="card-container">
+        <h3 class="card-title">Occupancy Trend</h3>
+        <p-chart type="line" [data]="chartData" [options]="chartOptions" height="300px"></p-chart>
+      </div>
+    </div>
+
+    <div class="activity-section">
+      <div class="card-container">
+        <h3 class="card-title">Recent Activity</h3>
+        <div class="activity-feed">
+          <div class="activity-item" *ngFor="let activity of recentActivities">
+            <div class="activity-avatar">{{activity.user[0]}}</div>
+            <div class="activity-info">
+              <span class="activity-user">{{activity.user}}</span>
+              <span class="activity-action">{{activity.action}}</span>
+              <span class="activity-time">{{activity.time}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="people-section">
+    <div class="card-container">
+      <div class="header-row">
+        <h3 class="card-title">Recent Residents</h3>
+        <p-button label="View All" [text]="true" size="small"></p-button>
+      </div>
+      <div class="people-grid">
+        <div class="person-item" *ngFor="let person of people">
+          <p-avatar *ngIf="person.image" [image]="person.image" shape="circle" size="large"></p-avatar>
+          <div *ngIf="!person.image" class="avatar-placeholder" [style.backgroundColor]="person.color">{{person.initials}}</div>
+          <span class="person-name">{{person.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

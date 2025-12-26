@@ -1,15 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
-using UserAndUnitManagement.Domain.Entities;
-using UserAndUnitManagement.Domain.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
-using UserAndUnitManagement.Application.Features.Units.Queries;
-using UserAndUnitManagement.Application.Features.Units.Commands;
-using Unit = UserAndUnitManagement.Domain.Entities.Unit;
-
-
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using UserAndUnitManagement.Application.Features.Units.Commands;
+using UserAndUnitManagement.Application.Features.Units.Queries;
+using UserAndUnitManagement.Domain.Entities;
+using UserAndUnitManagement.Domain.Interfaces;
+using Unit = UserAndUnitManagement.Domain.Entities.Unit;
 
 namespace UserAndUnitManagement.Api.Controllers
 {

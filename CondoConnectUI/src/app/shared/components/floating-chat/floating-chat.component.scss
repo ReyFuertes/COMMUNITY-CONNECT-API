@@ -1,0 +1,267 @@
+@import "../../../styleguide/index";
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+// Integrated Support Panel SCSS
+$primary-green: #198754;
+$border-color: #E2E8F0;
+$text-main: #1E293B;
+$text-muted: #64748B;
+$bg-sidebar: #F8FAFC;
+
+.chat-panel {
+  display: flex;
+  height: 100%;
+  background-color: white; 
+  overflow: hidden;
+}
+
+// Main Chat Area
+.chat-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.panel-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  background-color: white;
+
+  .header-user {
+    display: flex;
+    flex-direction: column;
+    .u-name { font-weight: 700; font-size: 0.95rem; color: $text-main; }
+    .u-status { font-size: 0.75rem; color: $text-muted; text-transform: capitalize; }
+  }
+
+  .header-search-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text-muted;
+    cursor: pointer;
+    transition: color 0.2s;
+    
+    &:hover { color: $primary-green; }
+    i { font-size: 0.9rem; }
+    .search-text { font-size: 0.85rem; font-weight: 700; }
+  }
+}
+
+.message-container {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  .msg-group {
+    display: flex;
+    width: 100%;
+    &.me { justify-content: flex-end; }
+  }
+
+  .bubble-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 85%;
+    gap: 0.25rem;
+  }
+
+  .sender-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: $primary-green;
+    margin-left: 0.5rem;
+  }
+
+  .msg-bubble {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    
+    &.bubble-me {
+      background-color: #F1F5F9; 
+      color: $text-main;
+      border-bottom-right-radius: 2px;
+      border: 1px solid $border-color;
+    }
+
+    &.bubble-other {
+      background-color: white;
+      color: $text-main;
+      border-bottom-left-radius: 2px;
+      border: 1px solid $border-color;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+  }
+}
+
+.panel-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid $border-color;
+  background-color: white;
+
+  .footer-input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #F8FAFC;
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    padding: 0.25rem 0.5rem 0.25rem 1rem;
+    transition: all 0.2s ease;
+
+    &:focus-within {
+      border-color: $primary-green;
+      background-color: white;
+      box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.05);
+    }
+  }
+
+  .panel-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 0.6rem 0;
+    font-size: 0.9rem;
+    color: $text-main;
+    &:focus { outline: none; }
+    &::placeholder { color: $text-muted; }
+  }
+
+  .panel-send {
+    background-color: transparent;
+    color: $primary-green;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    &:hover { color: #0d5a39; background-color: rgba(25, 135, 84, 0.05); }
+    i { font-size: 1.1rem; }
+  }
+}
+
+// Conversation Mini Sidebar
+.conv-sidebar {
+  width: 68px;
+  background-color: $bg-sidebar;
+  border-left: 1px solid $border-color; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 0;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar { width: 4px; }
+
+  .sidebar-top {
+    margin-bottom: 2rem;
+    flex-shrink: 0;
+    .support-icon { font-size: 1.5rem; color: $primary-green; }
+  }
+
+  .conv-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    padding-bottom: 1rem;
+  }
+
+  .mini-conv {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    
+    &:hover { transform: scale(1.1); }
+    &.active {
+      .avatar-container { 
+        box-shadow: 0 0 0 2px white, 0 0 0 4px $primary-green;
+        border-radius: 50%;
+      }
+    }
+
+    .avatar-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+
+    .general-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1976D2; 
+      border: 1px solid $border-color;
+      background-color: white;
+      i { font-size: 1.1rem; }
+    }
+
+    ::ng-deep .mini-avatar-img, ::ng-deep .mini-avatar-initials {
+      width: 40px !important;
+      height: 40px !important;
+    }
+
+    ::ng-deep .mini-avatar-initials {
+      color: #1E293B !important; 
+      font-weight: 700 !important;
+      font-size: 0.85rem !important;
+    }
+
+    .mini-status {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid $bg-sidebar;
+      z-index: 5;
+      &.online { background-color: #10B981; }
+      &.away { background-color: #F59E0B; }
+      &.offline { background-color: #94A3B8; }
+    }
+
+    .mini-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #DC3545;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid white;
+      z-index: 10;
+    }
+  }
+}

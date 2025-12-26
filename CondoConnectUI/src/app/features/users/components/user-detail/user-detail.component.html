@@ -1,0 +1,97 @@
+<div class="page-container" *ngIf="user">
+  <header class="page-header">
+    <div class="header-left-flex">
+      <p-avatar label="{{user.firstName[0]}}" shape="circle" size="xlarge" styleClass="header-avatar"></p-avatar>
+      <div class="header-info">
+        <h1 class="page-title">{{user.firstName}} {{user.lastName}}</h1>
+        <div class="header-meta-row">
+          <span class="meta-tag">{{getRoleName(user.role)}}</span>
+          <span class="meta-tag"><i class="pi pi-map-marker"></i> Unit 1503</span>
+          <p-tag [value]="user.isActive ? 'Active' : 'Inactive'" [severity]="user.isActive ? 'success' : 'danger'"></p-tag>
+        </div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <p-button label="Message" icon="pi pi-envelope" [outlined]="true" severity="secondary"></p-button>
+      <p-button label="Edit Profile" icon="pi pi-pencil" severity="info"></p-button>
+    </div>
+  </header>
+
+  <div class="profile-grid">
+    <div class="details-column">
+      <div class="content-card">
+        <p-tabs value="0">
+          <p-tablist>
+            <p-tab value="0">Basic Info</p-tab>
+            <p-tab value="1">Properties</p-tab>
+            <p-tab value="2">Security</p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="0">
+              <div class="info-grid">
+                <div class="info-field">
+                  <label>Email Address</label>
+                  <div class="value-box">{{user.email}}</div>
+                </div>
+                <div class="info-field">
+                  <label>Phone Number</label>
+                  <div class="value-box">(555) 123-4567</div>
+                </div>
+                <div class="info-field">
+                  <label>Language Preference</label>
+                  <div class="value-box">English (US)</div>
+                </div>
+                <div class="info-field">
+                  <label>Visibility</label>
+                  <div class="toggle-row">
+                    <p-toggleswitch [ngModel]="true"></p-toggleswitch>
+                    <span>Show in community directory</span>
+                  </div>
+                </div>
+              </div>
+            </p-tabpanel>
+
+            <p-tabpanel value="1">
+              <div class="unit-card-list">
+                <div class="u-card">
+                  <div class="u-icon"><i class="pi pi-home"></i></div>
+                  <div class="u-info">
+                    <span class="u-name">Unit 1503 (Tower A)</span>
+                    <span class="u-desc">Primary Residence • Owner</span>
+                  </div>
+                  <p-tag value="Owner" severity="success"></p-tag>
+                </div>
+              </div>
+            </p-tabpanel>
+
+            <p-tabpanel value="2">
+              <div class="security-list">
+                <div class="sec-item">
+                  <div class="sec-body">
+                    <span class="sec-title">Two-Factor Authentication</span>
+                    <span class="sec-desc">Added security for your account logs.</span>
+                  </div>
+                  <p-tag value="Verified" severity="success"></p-tag>
+                </div>
+              </div>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+
+    <aside class="activity-column">
+      <div class="content-card full-height">
+        <h3 class="card-title">Recent Activity</h3>
+        <p-timeline [value]="activityLog">
+          <ng-template pTemplate="content" let-event>
+            <div class="log-event">
+              <span class="log-time">{{event.date}}</span>
+              <span class="log-status">{{event.status}}</span>
+            </div>
+          </ng-template>
+        </p-timeline>
+      </div>
+    </aside>
+  </div>
+</div>
