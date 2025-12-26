@@ -43,6 +43,7 @@
            [ngClass]="{'active': activeConversation.id === conv.id}"
            (click)="selectConversation(conv)"
            [pTooltip]="conv.participantName"
+           tooltipStyleClass="mini-tooltip"
            tooltipPosition="left">
         
         <div class="avatar-container">
