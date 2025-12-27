@@ -16,17 +16,15 @@
         <input type="text" pInputText placeholder="Search unit number..." class="table-search">
       </div>
       <div class="filter-actions">
-        <p-select [options]="buildings" [(ngModel)]="selectedBuilding" placeholder="Filter by Building" optionLabel="label"></p-select>
+        <p-select [options]="buildings" [(ngModel)]="selectedBuilding" placeholder="Filter by Building"
+          optionLabel="label"></p-select>
         <p-button icon="pi pi-refresh" [outlined]="true" severity="secondary"></p-button>
       </div>
     </div>
 
-    <p-table [value]="(units$ | async) ?? []" [loading]="(loading$ | async) ?? false" 
-             [tableStyle]="{'min-width': '60rem'}" 
-             styleClass="p-datatable-gridlines-none"
-             (onRowSelect)="onRowSelect($event)"
-             selectionMode="single"
-             dataKey="id">
+    <p-table [value]="(units$ | async) ?? []" [loading]="(loading$ | async) ?? false"
+      [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines-none" (onRowSelect)="onRowSelect($event)"
+      selectionMode="single" dataKey="id">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 15%">Unit Number</th>
@@ -34,7 +32,7 @@
           <th style="width: 20%">Owner</th>
           <th style="width: 15%">Status</th>
           <th style="width: 15%">Tenant</th>
-          <th style="width: 15%">Actions</th>
+          <th style="width: 15%; text-align: right;">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-unit>
@@ -48,8 +46,10 @@
           <td>{{unit.tenantName || 'N/A'}}</td>
           <td>
             <div class="action-buttons">
-              <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="secondary" size="small" (onClick)="navigateToUnitDetail(unit.id)"></p-button>
-              <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" size="small" (onClick)="delete(unit.id, $event)"></p-button>
+              <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="secondary" size="small"
+                (onClick)="navigateToUnitDetail(unit.id)"></p-button>
+              <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" size="small"
+                (onClick)="onDelete(unit.id, $event)"></p-button>
             </div>
           </td>
         </tr>

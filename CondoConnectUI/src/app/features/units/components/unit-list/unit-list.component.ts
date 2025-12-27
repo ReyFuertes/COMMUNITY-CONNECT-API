@@ -6,6 +6,7 @@ import { UnitStatus, Unit } from '../../models/unit.model';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableRowSelectEvent } from 'primeng/table'; // Import TableRowSelectEvent
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-unit-list',
@@ -28,7 +29,7 @@ export class UnitListComponent implements OnInit {
   public selectedBuilding: string | null = null;
   public unitStatusEnum: typeof UnitStatus = UnitStatus; // Expose enum to template
 
-  constructor(private store: Store, private router: Router) {
+  constructor(private store: Store, private router: Router, private confirmationService: ConfirmationService) {
     this.units$ = this.store.select(UnitSelectors.selectAllUnits);
     this.loading$ = this.store.select(UnitSelectors.selectUnitLoading);
   }
@@ -45,11 +46,16 @@ export class UnitListComponent implements OnInit {
     this.visibleSidebar = true;
   }
 
-  public delete(id: string, event: Event): void {
+  public onDelete(id: string, event: Event): void {
     event.stopPropagation();
-    if (confirm('Are you sure you want to delete this unit?')) {
-      this.store.dispatch(UnitActions.deleteUnit({ id })); // Changed 'id' to 'unitId'
-    }
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this unit?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.store.dispatch(UnitActions.deleteUnit({ id }));
+      }
+    });
   }
 
   public getStatusName(status: UnitStatus): string {

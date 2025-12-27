@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { DrawerModule } from 'primeng/drawer';
 import { SelectModule } from 'primeng/select';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -26,13 +27,14 @@ import { UnitEffects } from './store/unit.effects';
     TagModule,
     DrawerModule,
     SelectModule,
+    ConfirmDialogModule,
     FormsModule,
     RouterModule.forChild([
       { path: '', component: UnitListComponent },
       { path: ':id', component: UnitDetailComponent }
     ]),
     StoreModule.forFeature('units', unitReducer),
-
+    EffectsModule.forFeature([UnitEffects])
   ]
 })
 export class UnitsModule { }

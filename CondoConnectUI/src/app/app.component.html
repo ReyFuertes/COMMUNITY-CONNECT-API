@@ -11,13 +11,8 @@
       </div>
     </div>
     <nav class="sidebar-nav">
-      <a *ngFor="let item of items" 
-         [routerLink]="item.routerLink" 
-         routerLinkActive="active-link" 
-         class="nav-item"
-         [pTooltip]="isSidebarCollapsed ? item.label : ''"
-         tooltipPosition="right"
-         pRipple>
+      <a *ngFor="let item of items" [routerLink]="item.routerLink" routerLinkActive="active-link" class="nav-item"
+        [pTooltip]="isSidebarCollapsed ? item.label : ''" tooltipPosition="right" pRipple>
         <i [class]="item.icon" class="nav-icon"></i>
         <span class="nav-label" *ngIf="!isSidebarCollapsed">{{item.label}}</span>
         <span class="nav-badge" *ngIf="!isSidebarCollapsed && item.badge">{{item.badge}}</span>
@@ -96,3 +91,10 @@
     </div>
   </p-popover>
 </div>
+
+<p-confirm-dialog #cd appendTo="body" [style]="{width: '450px'}">
+  <ng-template pTemplate="footer">
+    <p-button label="Yes" severity="primary" (onClick)="cd.onAccept()" />
+    <p-button label="Cancel" [text]="true" severity="secondary" (onClick)="cd.onReject()" />
+  </ng-template>
+</p-confirm-dialog>

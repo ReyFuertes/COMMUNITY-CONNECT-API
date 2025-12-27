@@ -15,6 +15,7 @@ import { TagModule } from 'primeng/tag';
 import { AccordionModule } from 'primeng/accordion';
 import { TimelineModule } from 'primeng/timeline';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { userReducer } from './store/user.reducer';
@@ -40,6 +41,7 @@ import { UserEffects } from './store/user.effects';
     AccordionModule,
     TimelineModule,
     ToggleSwitchModule,
+    ConfirmDialogModule,
     RouterModule.forChild([
       { path: '', component: UserListComponent },
       { path: ':id', component: UserDetailComponent }

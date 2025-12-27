@@ -8,21 +8,37 @@
       <!-- Reactive Form for New Booking -->
       <form [formGroup]="newBookingForm" (ngSubmit)="onSubmitNewBooking()" class="new-booking-form">
         <div class="p-field">
-          <p-autocomplete formControlName="amenity" [suggestions]="filteredAmenities" (completeMethod)="searchAmenities($event)" placeholder="Amenity Name" [dropdown]="true" styleClass="w-full"></p-autocomplete>
+          <label for="amenity">Facility / Amenity</label>
+          <p-autocomplete id="amenity" formControlName="amenity" [suggestions]="filteredAmenities"
+            (completeMethod)="searchAmenities($event)" placeholder="Search facility..." [dropdown]="true"
+            styleClass="w-full"></p-autocomplete>
         </div>
         <div class="p-field">
-          <p-autocomplete formControlName="resident" [suggestions]="filteredResidents" (completeMethod)="searchResidents($event)" placeholder="Resident Name" [dropdown]="true" styleClass="w-full"></p-autocomplete>
+          <label for="resident">Resident</label>
+          <p-autocomplete id="resident" formControlName="resident" [suggestions]="filteredResidents"
+            (completeMethod)="searchResidents($event)" placeholder="Search resident..." [dropdown]="true"
+            styleClass="w-full"></p-autocomplete>
         </div>
         <div class="p-field">
-          <p-datepicker id="start" formControlName="start" [showTime]="true" [showSeconds]="false" placeholder="Select Start Time"></p-datepicker>
+          <label for="start">Start Date & Time</label>
+          <p-datepicker id="start" formControlName="start" [showTime]="true" [showSeconds]="false"
+            placeholder="Select Start"></p-datepicker>
         </div>
         <div class="p-field">
-          <p-datepicker id="end" formControlName="end" [showTime]="true" [showSeconds]="false" placeholder="Select End Time"></p-datepicker>
+          <label for="end">End Date & Time</label>
+          <p-datepicker id="end" formControlName="end" [showTime]="true" [showSeconds]="false"
+            placeholder="Select End"></p-datepicker>
         </div>
         <div class="p-field">
-          <p-select id="status" formControlName="status" [options]="[{label: 'Confirmed', value: 'Confirmed'}, {label: 'Pending', value: 'Pending'}, {label: 'Cancelled', value: 'Cancelled'}]" optionLabel="label" placeholder="Select Status"></p-select>
+          <label for="status">Booking Status</label>
+          <p-select id="status" formControlName="status"
+            [options]="[{label: 'Confirmed', value: 'Confirmed'}, {label: 'Pending', value: 'Pending'}, {label: 'Cancelled', value: 'Cancelled'}]"
+            optionLabel="label" placeholder="Select Status"></p-select>
         </div>
-        <p-button label="Add Booking" icon="pi pi-plus" type="submit" [disabled]="newBookingForm.invalid" styleClass="btn-submit"></p-button>
+        <div class="p-field no-label">
+          <p-button label="Add Booking" icon="pi pi-plus" type="submit" [disabled]="newBookingForm.invalid"
+            styleClass="btn-submit"></p-button>
+        </div>
       </form>
     </div>
   </header>
@@ -42,7 +58,8 @@
               <span class="booking-resident">{{booking.resident}}</span>
             </div>
             <div class="booking-details">
-              <span class="booking-time">{{booking.start | date:'shortTime'}} - {{booking.end | date:'shortTime'}}</span>
+              <span class="booking-time">{{booking.start | date:'shortTime'}} -
+                {{booking.end | date:'shortTime'}}</span>
               <p-tag [value]="booking.status" [severity]="getSeverity(booking.status)"></p-tag>
             </div>
           </div>

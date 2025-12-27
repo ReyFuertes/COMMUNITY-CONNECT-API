@@ -31,6 +31,10 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -65,8 +69,7 @@
             },
             "development": {
               "buildTarget": "CommunityConnect:build:development"
-            },
-
+            }
           },
           "defaultConfiguration": "development"
         },

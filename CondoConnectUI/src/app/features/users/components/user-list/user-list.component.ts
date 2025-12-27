@@ -5,6 +5,7 @@ import * as UserSelectors from '../../store/user.selectors';
 import { UserRole } from '../../models/user.model';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-user-list',
@@ -18,7 +19,7 @@ export class UserListComponent implements OnInit {
   public UserRole: typeof UserRole = UserRole;
   public pageSize: number = 20;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private confirmationService: ConfirmationService) {
     this.users$ = this.store.select(UserSelectors.selectAllUsers);
     this.loading$ = this.store.select(UserSelectors.selectUserLoading);
   }
@@ -28,9 +29,14 @@ export class UserListComponent implements OnInit {
   }
 
   public delete(id: string): void {
-    if(confirm('Are you sure you want to delete this user?')) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this user?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
         this.store.dispatch(UserActions.deleteUser({ id }));
-    }
+      }
+    });
   }
   
   public getRoleName(role: UserRole): string {

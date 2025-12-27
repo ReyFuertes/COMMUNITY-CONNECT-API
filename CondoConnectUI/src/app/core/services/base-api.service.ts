@@ -7,10 +7,9 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export abstract class BaseApiService<T> {
-  protected resourcePath: string;
+  protected abstract resourcePath: string;
 
-  constructor(protected http: HttpClient, private entity: string = '') {
-    this.resourcePath = environment.apiUrl;
+  constructor(protected http: HttpClient) {
   }
 
   protected get baseUrl(): string {

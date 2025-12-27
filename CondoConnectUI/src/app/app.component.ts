@@ -12,25 +12,27 @@ import { TooltipModule } from 'primeng/tooltip';
 import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs';
 import { FloatingChatComponent } from './shared/components/floating-chat/floating-chat.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, 
-    RouterOutlet, 
-    RouterLink, 
-    RouterLinkActive, 
-    AvatarModule, 
-    BadgeModule, 
-    InputTextModule, 
-    RippleModule, 
-    ButtonModule, 
+    CommonModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    AvatarModule,
+    BadgeModule,
+    InputTextModule,
+    RippleModule,
+    ButtonModule,
     SelectModule,
     PopoverModule,
     TooltipModule,
     FormsModule,
-    FloatingChatComponent
+    FloatingChatComponent,
+    ConfirmDialogModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -47,8 +49,8 @@ export class AppComponent {
 
   public items: { label: string; icon: string; routerLink: string, color: string, badge?: string }[] = [
     { label: 'Dashboard', icon: 'pi pi-chart-line', routerLink: '/dashboard', color: '#4A90E2' },
-    { label: 'User Management', icon: 'pi pi-users', routerLink: '/users', color: '#5B7C99' },
     { label: 'Unit Management', icon: 'pi pi-building', routerLink: '/units', color: '#FF8C00' },
+    { label: 'User Management', icon: 'pi pi-users', routerLink: '/users', color: '#5B7C99' },
     { label: 'Maintenance', icon: 'pi pi-wrench', routerLink: '/maintenance', color: '#6366F1', badge: '3' },
     { label: 'Finance', icon: 'pi pi-wallet', routerLink: '/finance', color: '#10B981' },
     { label: 'Security', icon: 'pi pi-shield', routerLink: '/security', color: '#EF4444' },

@@ -11,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { reducers } from './store';
 import { routes } from './app.routes';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +24,8 @@ export const appConfig: ApplicationConfig = {
         preset: Aura
       }
     }),
+    ConfirmationService,
+    MessageService,
     importProvidersFrom(
       StoreModule.forRoot(reducers),
       EffectsModule.forRoot([]),
