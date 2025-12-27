@@ -1,0 +1,38 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Community Support</h1>
+      <p class="page-desc">Find answers to common questions or contact the management team.</p>
+    </div>
+  </header>
+
+  <div class="support-grid">
+    <div class="faq-section">
+      <h3 class="section-title">Frequently Asked Questions</h3>
+      <div class="faq-list">
+        <div class="faq-item" *ngFor="let item of faqItems">
+          <div class="faq-question">{{item.question}}</div>
+          <div class="faq-answer">{{item.answer}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-section">
+      <div class="contact-card">
+        <h3 class="card-title">Contact Management</h3>
+        <p>Our team is available Monday to Friday, 9 AM - 6 PM.</p>
+        <div class="contact-info">
+          <div class="info-item">
+            <i class="pi pi-phone"></i>
+            <span>+1 (555) 012-3456</span>
+          </div>
+          <div class="info-item">
+            <i class="pi pi-envelope"></i>
+            <span>admin&#64;condoconnect.com</span>
+          </div>
+        </div>
+        <p-button label="Open Live Chat" icon="pi pi-comments" styleClass="w-full mt-4"></p-button>
+      </div>
+    </div>
+  </div>
+</div>

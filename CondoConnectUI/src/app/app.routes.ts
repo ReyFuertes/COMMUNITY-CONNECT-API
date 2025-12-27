@@ -12,5 +12,6 @@ export const routes: Routes = [
     { path: 'documents', loadChildren: () => import('./features/documents/documents.module').then(m => m.DocumentsModule) },
     { path: 'reports', loadChildren: () => import('./features/reports/reports.module').then(m => m.ReportsModule) },
     { path: 'settings', loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule) },
-    { path: 'engagement', loadChildren: () => import('./features/engagement/engagement.module').then(m => m.EngagementModule) }
+    { path: 'engagement', loadChildren: () => import('./features/engagement/engagement.module').then(m => m.EngagementModule) },
+    { path: 'support', loadChildren: () => import('./features/support/support.module').then(m => m.SupportModule) }
 ];
