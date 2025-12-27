@@ -1,0 +1,156 @@
+// _theme.scss
+@use 'variables' as *;
+@use 'atoms/typography' as *;
+@use 'atoms/buttons' as *;
+@use 'atoms/inputs' as *;
+@use 'atoms/tags' as *;
+@use 'molecules/form-field' as *;
+
+/* --- CSS Variables Populated from Styleguide --- */
+:root {
+  --primary-blue: #{$primary-blue};
+  --primary-green: #{$primary-green};
+  --primary-red: #{$primary-red};
+  --primary-orange: #{$primary-orange};
+  --primary-plum: #{$primary-plum};
+  --bg-body: #{$bg-body};
+  --bg-topbar: #{$bg-topbar};
+  --bg-card: #{$bg-card};
+  --bg-hover: #{$bg-hover};
+  --bg-active: #{$bg-active};
+  --text-main: #{$text-main};
+  --text-muted: #{$text-muted};
+  --border-color: #{$border-color};
+  --font-family: #{$font-family};
+}
+
+/* --- PrimeNG Global Overrides --- */
+
+.p-component, .p-button, .p-inputtext, .p-datatable, .p-tag {
+    font-family: $font-family !important;
+}
+
+@mixin button-outlined-variant($color) {
+  background-color: transparent !important;
+  border-color: $color !important;
+  color: $color !important;
+
+  &:hover:not(:disabled) {
+    background-color: rgba($color, 0.05) !important;
+  }
+}
+
+/* --- Buttons --- */
+.p-button {
+  @include button-base;
+  @include button-variant($primary-blue, $primary-blue, $text-white);
+
+  &.p-button-success { 
+    @include button-variant($color-success, $color-success, $text-white);
+    &.p-button-outlined { @include button-outlined-variant($color-success); }
+  }
+  
+  &.p-button-info { 
+    @include button-variant($color-info, $color-info, $text-white);
+    &.p-button-outlined { @include button-outlined-variant($color-info); }
+  }
+
+  &.p-button-danger { 
+    @include button-variant($color-danger, $color-danger, $text-white);
+    &.p-button-outlined { @include button-outlined-variant($color-danger); }
+  }
+
+  &.p-button-warn { 
+    @include button-variant($color-warning, $color-warning, $text-white);
+    &.p-button-outlined { @include button-outlined-variant($color-warning); }
+  }
+
+  &.p-button-secondary { 
+    @include button-variant($bg-active, $bg-active, $color-secondary);
+    &.p-button-outlined { @include button-outlined-variant($color-secondary); }
+  }
+
+  &.p-button-outlined {
+    @include button-outlined-variant($primary-blue);
+  }
+}
+
+/* --- Inputs & Selects --- */
+.p-inputtext {
+  @include input-base;
+}
+
+.p-select, .p-autocomplete, .p-datepicker {
+  width: 100%;
+  
+  .p-inputtext {
+    @include input-base;
+  }
+}
+
+.p-select-label, .p-autocomplete-input {
+  height: 40px;
+  display: flex !important;
+  align-items: center;
+  border-radius: 4px 0 0 4px !important;
+}
+
+.p-datepicker {
+    .p-datepicker-header {
+        background-color: $bg-card;
+        border-bottom: 1px solid $border-color;
+    }
+}
+
+/* --- Data Table --- */
+.p-datatable {
+  .p-datatable-thead > tr > th {
+    background-color: $bg-topbar !important;
+    color: $text-muted !important;
+    @include font-bold;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.05em !important;
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid $border-color !important;
+
+    &:last-child {
+      text-align: right !important;
+    }
+  }
+
+  .p-datatable-tbody > tr {
+    background-color: $bg-card !important;
+    
+    &:hover {
+      background-color: $bg-topbar !important;
+    }
+
+    > td {
+      padding: 0.75rem 1rem !important;
+      border-bottom: 1px solid $border-color-light !important;
+
+      &:last-child {
+        text-align: right !important;
+      }
+    }
+  }
+}
+
+/* --- Tags --- */
+.p-tag {
+  @include tag-base;
+  background-color: $bg-hover !important;
+  color: $text-muted !important;
+}
+
+/* --- Overlays --- */
+.p-popover, .p-tooltip {
+    z-index: 3000 !important;
+}
+
+.mini-tooltip .p-tooltip-text {
+    font-size: 0.75rem !important;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: $border-radius-sm !important;
+}

@@ -1,0 +1,37 @@
+// _inputs.scss
+@use '../variables' as *;
+@use '_typography' as *;
+
+@mixin input-base {
+  width: 100%;
+  height: 40px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: $text-main;
+  background-color: white;
+  border: 1px solid $border-color !important;
+  border-radius: $border-radius-sm !important;
+  transition: all 0.2s ease;
+  outline: none !important;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:enabled:focus {
+    border-color: $border-color-focus !important;
+    box-shadow: none !important;
+  }
+
+  &:disabled {
+    background-color: $bg-disabled;
+    color: $text-disabled;
+    cursor: not-allowed;
+  }
+}
+
+@mixin select-base {
+  @include input-base;
+  display: flex;
+  align-items: center;
+}

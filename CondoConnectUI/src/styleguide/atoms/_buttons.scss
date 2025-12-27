@@ -1,0 +1,38 @@
+// _buttons.scss
+@use '../variables' as *;
+@use '_typography' as *;
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  @include font-bold;
+  border-radius: $border-radius-sm !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer;
+  border: 1px solid transparent;
+  gap: 0.5rem;
+  box-shadow: none !important;
+  outline: none !important;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-variant($bg, $border, $text) {
+  background-color: $bg !important;
+  border-color: $border !important;
+  color: $text !important;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1) !important;
+  }
+
+  &:active:not(:disabled) {
+    filter: brightness(0.9) !important;
+  }
+}

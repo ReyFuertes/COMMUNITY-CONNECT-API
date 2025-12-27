@@ -1,0 +1,14 @@
+// _tags.scss
+@use '../variables' as *;
+@use '_typography' as *;
+
+@mixin tag-base {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: $border-radius-sm !important;
+  font-size: 0.75rem;
+  @include font-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}

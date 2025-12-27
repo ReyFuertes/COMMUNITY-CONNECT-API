@@ -1,0 +1,18 @@
+// _form-field.scss
+@use '../variables' as *;
+@use '../atoms/typography' as *;
+
+@mixin form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+
+  label {
+    font-size: 0.8rem;
+    color: $text-muted;
+    @include font-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
