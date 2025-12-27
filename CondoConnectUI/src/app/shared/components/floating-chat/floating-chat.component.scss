@@ -114,17 +114,35 @@ $bg-sidebar: #F8FAFC;
   gap: 1.25rem;
 
   .date-divider {
+    display: flex;
+    align-items: center;
     text-align: center;
     margin: 1rem 0;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    &::before {
+      margin-right: 0.75rem;
+    }
+
+    &::after {
+      margin-left: 0.75rem;
+    }
+
     span {
       display: inline-block;
-      background-color: #f0f0f0; /* Changed to a lighter color */
+      background-color: #f0f0f0; /* Lighter color */
       padding: 0.3rem 0.8rem;
       border-radius: 15px;
       font-size: 0.75rem;
       color: #555;
       font-weight: 600;
-      border: 1px solid #ccc; /* Added border */
+      /* Removed border: 1px solid #ccc; */
     }
   }
 
