@@ -7,6 +7,13 @@ export interface ChatMessage {
   isMe: boolean;
 }
 
+export interface ChatDateDivider {
+  date: Date;
+  type: 'dateDivider';
+}
+
+export type ChatDisplayItem = ChatMessage | ChatDateDivider;
+
 export interface Conversation {
   id: string;
   participantName: string;
@@ -18,3 +25,4 @@ export interface Conversation {
   image?: string;
   color?: string;
 }
+

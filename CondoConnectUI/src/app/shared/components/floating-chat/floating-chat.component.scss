@@ -113,6 +113,20 @@ $bg-sidebar: #F8FAFC;
   flex-direction: column;
   gap: 1.25rem;
 
+  .date-divider {
+    text-align: center;
+    margin: 1rem 0;
+    span {
+      display: inline-block;
+      background-color: #e0e0e0;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      color: #555;
+      font-weight: 600;
+    }
+  }
+
   .msg-group {
     display: flex;
     width: 100%;

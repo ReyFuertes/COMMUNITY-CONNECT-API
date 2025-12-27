@@ -26,13 +26,22 @@
     </header>
 
     <div class="message-container" #scrollMe>
-      <div class="msg-group" *ngFor="let msg of messagesMap[activeConversation.id]" [ngClass]="{'me': msg.isMe}">
-        <div class="bubble-wrapper">
-          <span class="sender-label" *ngIf="activeConversation.id === 'general' && !msg.isMe">{{msg.senderName}}</span>
-          <div class="msg-bubble" [ngClass]="msg.isMe ? 'bubble-me' : 'bubble-other'" [innerHTML]="msg.content | highlight: searchQuery">
+      <ng-container *ngFor="let item of groupedMessages">
+        <ng-container *ngIf="item.type === 'dateDivider'; else messageBlock">
+          <div class="date-divider">
+            <span>{{ (item as ChatDateDivider).date | date:'mediumDate' }}</span>
           </div>
-        </div>
-      </div>
+        </ng-container>
+        <ng-template #messageBlock>
+          <div class="msg-group" [ngClass]="{'me': (item as ChatMessage).isMe}">
+            <div class="bubble-wrapper">
+              <span class="sender-label" *ngIf="activeConversation.id === 'general' && !(item as ChatMessage).isMe">{{(item as ChatMessage).senderName}}</span>
+              <div class="msg-bubble" [ngClass]="(item as ChatMessage).isMe ? 'bubble-me' : 'bubble-other'" [innerHTML]="(item as ChatMessage).content | highlight: searchQuery">
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
     </div>
 
     <footer class="panel-footer">

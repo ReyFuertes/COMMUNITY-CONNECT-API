@@ -6,13 +6,14 @@ import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { TooltipModule } from 'primeng/tooltip';
 import { RippleModule } from 'primeng/ripple';
-import { Conversation, ChatMessage } from '../../models/chat.model';
+import { Conversation, ChatMessage, ChatDateDivider, ChatDisplayItem } from '../../models/chat.model';
 import { HighlightPipe } from '../../pipes/highlight.pipe';
+import { DatePipe } from '@angular/common'; // Import DatePipe
 
 @Component({
   selector: 'app-floating-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonModule, AvatarModule, BadgeModule, TooltipModule, RippleModule, HighlightPipe],
+  imports: [CommonModule, FormsModule, ButtonModule, AvatarModule, BadgeModule, TooltipModule, RippleModule, HighlightPipe, DatePipe],
   templateUrl: './floating-chat.component.html',
   styleUrl: './floating-chat.component.scss'
 })
@@ -23,6 +24,7 @@ export class FloatingChatComponent implements OnInit, AfterViewChecked {
   public newMessage: string = '';
   public isSearchActive: boolean = false;
   public searchQuery: string = '';
+  public groupedMessages: ChatDisplayItem[] = []; // New property for grouped messages
 
   public conversations: Conversation[] = [
     { id: 'general', participantName: 'General Chat', lastMessage: 'All posts secured for shift change.', lastMessageTime: '1m ago', unreadCount: 0, status: 'online', avatar: 'pi-users', color: '#E3F2FD' },
@@ -40,28 +42,28 @@ export class FloatingChatComponent implements OnInit, AfterViewChecked {
 
   public messagesMap: { [key: string]: ChatMessage[] } = {
     'general': [
-      { id: 'g1', senderId: 'alex', senderName: 'Alex', content: 'Gate A reporting in. Morning shift started.', timestamp: new Date(), isMe: false },
-      { id: 'g2', senderId: 'sam', senderName: 'Sam', content: 'Gate B active. All systems green.', timestamp: new Date(), isMe: false },
-      { id: 'g3', senderId: 'me', senderName: 'Admin', content: 'Good morning team. High occupancy expected today.', timestamp: new Date(), isMe: true },
-      { id: 'g4', senderId: 'maria', senderName: 'Maria', content: 'Starting floor patrol on Level 1.', timestamp: new Date(), isMe: false },
-      { id: 'g5', senderId: 'david', senderName: 'David', content: 'CCTV feed 4 showing a delivery truck at the rear.', timestamp: new Date(), isMe: false },
-      { id: 'g6', senderId: 'sam', senderName: 'Sam', content: 'Acknowledged David, checking credentials now.', timestamp: new Date(), isMe: false },
-      { id: 'g7', senderId: 'elena', senderName: 'Elena', content: 'Lobby is busy. 3 guests waiting for check-in.', timestamp: new Date(), isMe: false },
-      { id: 'g8', senderId: 'me', senderName: 'Admin', content: 'Maria, please assist Elena at the lobby if possible.', timestamp: new Date(), isMe: true },
-      { id: 'g9', senderId: 'maria', senderName: 'Maria', content: 'On my way to the lobby.', timestamp: new Date(), isMe: false },
-      { id: 'g10', senderId: 'chris', senderName: 'Chris', content: 'External perimeter sweep completed. All clear.', timestamp: new Date(), isMe: false },
-      { id: 'g11', senderId: 'sarah', senderName: 'Sarah', content: 'Reminder: Fire drill at 2 PM today.', timestamp: new Date(), isMe: false },
-      { id: 'g12', senderId: 'alex', senderName: 'Alex', content: 'Visitor for 101 approved and logged.', timestamp: new Date(), isMe: false },
-      { id: 'g13', senderId: 'david', senderName: 'David', content: 'Suspicious vehicle spotted near the south fence.', timestamp: new Date(), isMe: false },
-      { id: 'g14', senderId: 'me', senderName: 'Admin', content: 'Chris, please investigate the south fence immediately.', timestamp: new Date(), isMe: true },
-      { id: 'g15', senderId: 'chris', senderName: 'Chris', content: 'Investigating... It was just a delivery driver lost.', timestamp: new Date(), isMe: false },
-      { id: 'g16', senderId: 'me', senderName: 'Admin', content: 'Thanks for the quick update, Chris.', timestamp: new Date(), isMe: true },
-      { id: 'g17', senderId: 'tom', senderName: 'Tom', content: 'Night shift handover notes uploaded to system.', timestamp: new Date(), isMe: false },
-      { id: 'g18', senderId: 'lisa', senderName: 'Lisa', content: 'Visitor passes for the event are ready.', timestamp: new Date(), isMe: false },
-      { id: 'g19', senderId: 'g10', senderName: 'Post 4', content: 'Light out in stairwell C. Logged.', timestamp: new Date(), isMe: false },
-      { id: 'g20', senderId: 'me', senderName: 'Admin', content: 'Notified maintenance for the stairwell light.', timestamp: new Date(), isMe: true },
-      { id: 'g21', senderId: 'maria', senderName: 'Maria', content: 'Lobby guest surge cleared. Resuming patrol.', timestamp: new Date(), isMe: false },
-      { id: 'g22', senderId: 'alex', senderName: 'Alex', content: 'All posts secured for shift change.', timestamp: new Date(), isMe: false }
+      { id: 'g1', senderId: 'alex', senderName: 'Alex', content: 'Gate A reporting in. Morning shift started.', timestamp: new Date(2025, 11, 25, 9, 0), isMe: false },
+      { id: 'g2', senderId: 'sam', senderName: 'Sam', content: 'Gate B active. All systems green.', timestamp: new Date(2025, 11, 25, 9, 5), isMe: false },
+      { id: 'g3', senderId: 'me', senderName: 'Admin', content: 'Good morning team. High occupancy expected today.', timestamp: new Date(2025, 11, 25, 9, 10), isMe: true },
+      { id: 'g4', senderId: 'maria', senderName: 'Maria', content: 'Starting floor patrol on Level 1.', timestamp: new Date(2025, 11, 25, 10, 0), isMe: false },
+      { id: 'g5', senderId: 'david', senderName: 'David', content: 'CCTV feed 4 showing a delivery truck at the rear.', timestamp: new Date(2025, 11, 25, 10, 15), isMe: false },
+      { id: 'g6', senderId: 'sam', senderName: 'Sam', content: 'Acknowledged David, checking credentials now.', timestamp: new Date(2025, 11, 25, 10, 20), isMe: false },
+      { id: 'g7', senderId: 'elena', senderName: 'Elena', content: 'Lobby is busy. 3 guests waiting for check-in.', timestamp: new Date(2025, 11, 26, 8, 30), isMe: false },
+      { id: 'g8', senderId: 'me', senderName: 'Admin', content: 'Maria, please assist Elena at the lobby if possible.', timestamp: new Date(2025, 11, 26, 8, 45), isMe: true },
+      { id: 'g9', senderId: 'maria', senderName: 'Maria', content: 'On my way to the lobby.', timestamp: new Date(2025, 11, 26, 8, 50), isMe: false },
+      { id: 'g10', senderId: 'chris', senderName: 'Chris', content: 'External perimeter sweep completed. All clear.', timestamp: new Date(2025, 11, 26, 11, 0), isMe: false },
+      { id: 'g11', senderId: 'sarah', senderName: 'Sarah', content: 'Reminder: Fire drill at 2 PM today.', timestamp: new Date(2025, 11, 27, 13, 0), isMe: false },
+      { id: 'g12', senderId: 'alex', senderName: 'Alex', content: 'Visitor for 101 approved and logged.', timestamp: new Date(2025, 11, 27, 13, 10), isMe: false },
+      { id: 'g13', senderId: 'david', senderName: 'David', content: 'Suspicious vehicle spotted near the south fence.', timestamp: new Date(2025, 11, 27, 14, 0), isMe: false },
+      { id: 'g14', senderId: 'me', senderName: 'Admin', content: 'Chris, please investigate the south fence immediately.', timestamp: new Date(2025, 11, 27, 14, 5), isMe: true },
+      { id: 'g15', senderId: 'chris', senderName: 'Chris', content: 'Investigating... It was just a delivery driver lost.', timestamp: new Date(2025, 11, 27, 14, 15), isMe: false },
+      { id: 'g16', senderId: 'me', senderName: 'Admin', content: 'Thanks for the quick update, Chris.', timestamp: new Date(2025, 11, 27, 14, 20), isMe: true },
+      { id: 'g17', senderId: 'tom', senderName: 'Tom', content: 'Night shift handover notes uploaded to system.', timestamp: new Date(2025, 11, 28, 6, 0), isMe: false },
+      { id: 'g18', senderId: 'lisa', senderName: 'Lisa', content: 'Visitor passes for the event are ready.', timestamp: new Date(2025, 11, 28, 7, 0), isMe: false },
+      { id: 'g19', senderId: 'g10', senderName: 'Post 4', content: 'Light out in stairwell C. Logged.', timestamp: new Date(2025, 11, 28, 8, 0), isMe: false },
+      { id: 'g20', senderId: 'me', senderName: 'Admin', content: 'Notified maintenance for the stairwell light.', timestamp: new Date(2025, 11, 28, 8, 10), isMe: true },
+      { id: 'g21', senderId: 'maria', senderName: 'Maria', content: 'Lobby guest surge cleared. Resuming patrol.', timestamp: new Date(2025, 11, 28, 9, 0), isMe: false },
+      { id: 'g22', senderId: 'alex', senderName: 'Alex', content: 'All posts secured for shift change.', timestamp: new Date(2025, 11, 28, 9, 30), isMe: false }
     ],
     '1': [{ id: '101', senderId: 'alex', senderName: 'Alex', content: 'Visitor for Unit 101.', timestamp: new Date(), isMe: false }],
     '2': [{ id: '201', senderId: 'maria', senderName: 'Maria', content: 'Level 2 is clear.', timestamp: new Date(), isMe: false }],
@@ -78,6 +80,7 @@ export class FloatingChatComponent implements OnInit, AfterViewChecked {
   public activeConversation: Conversation = this.conversations[0];
 
   public ngOnInit(): void {
+    this.processMessagesForDisplay();
     this.scrollToBottom();
   }
 
@@ -93,6 +96,7 @@ export class FloatingChatComponent implements OnInit, AfterViewChecked {
 
   public selectConversation(conv: Conversation): void {
     this.activeConversation = conv;
+    this.processMessagesForDisplay(); // Process messages when conversation changes
     this.scrollToBottom();
   }
 
@@ -128,6 +132,31 @@ export class FloatingChatComponent implements OnInit, AfterViewChecked {
       this.activeConversation.lastMessage = this.newMessage;
       this.activeConversation.lastMessageTime = 'Just now';
       this.newMessage = '';
+      this.processMessagesForDisplay(); // Re-process messages after sending a new one
     }
+  }
+
+  // New method to process messages and insert date dividers
+  private processMessagesForDisplay(): void {
+    const currentMessages = this.messagesMap[this.activeConversation.id] || [];
+    this.groupedMessages = this.groupMessagesByDate(currentMessages);
+  }
+
+  private groupMessagesByDate(messages: ChatMessage[]): ChatDisplayItem[] {
+    const displayItems: ChatDisplayItem[] = [];
+    let lastDate: string | null = null;
+
+    messages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime()); // Ensure messages are sorted by time
+
+    for (const message of messages) {
+      const messageDate = message.timestamp.toDateString();
+      if (messageDate !== lastDate) {
+        // Insert a date divider
+        displayItems.push({ type: 'dateDivider', date: message.timestamp });
+        lastDate = messageDate;
+      }
+      displayItems.push(message);
+    }
+    return displayItems;
   }
 }
