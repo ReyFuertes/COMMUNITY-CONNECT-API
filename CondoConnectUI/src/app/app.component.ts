@@ -47,6 +47,7 @@ export class AppComponent {
 
   public items: { label: string; icon: string; routerLink: string, color: string, badge?: string }[] = [
     { label: 'Dashboard', icon: 'pi pi-chart-line', routerLink: '/dashboard', color: '#4A90E2' },
+    { label: 'User Management', icon: 'pi pi-users', routerLink: '/users', color: '#5B7C99' },
     { label: 'Unit Management', icon: 'pi pi-building', routerLink: '/units', color: '#FF8C00' },
     { label: 'Maintenance', icon: 'pi pi-wrench', routerLink: '/maintenance', color: '#6366F1', badge: '3' },
     { label: 'Finance', icon: 'pi pi-wallet', routerLink: '/finance', color: '#10B981' },

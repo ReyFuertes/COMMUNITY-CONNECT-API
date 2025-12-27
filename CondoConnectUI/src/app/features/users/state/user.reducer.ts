@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { User, UserRole } from '../models/user.model';
-import * as UserActions from './user.actions';
+import { createUserSuccess, deleteUserSuccess, loadUsers, loadUsersFailure, loadUsersSuccess, updateUserSuccess } from '../store/user.actions';
 
 export interface UserState {
   users: User[];
@@ -83,16 +83,16 @@ export const initialState: UserState = {
 
 export const userReducer = createReducer(
   initialState,
-  on(UserActions.loadUsers, state => ({ ...state, loading: false })), // Prevent loading spinner from hiding mock data
-  on(UserActions.loadUsersSuccess, (state, { users }) => ({ ...state, users: users.length > 0 ? users : state.users, loading: false })),
-  on(UserActions.loadUsersFailure, (state, { error }) => ({ ...state, error, loading: false })),
+  on(loadUsers, state => ({ ...state, loading: false })), // Prevent loading spinner from hiding mock data
+  on(loadUsersSuccess, (state, { users }) => ({ ...state, users: users.length > 0 ? users : state.users, loading: false })),
+  on(loadUsersFailure, (state, { error }) => ({ ...state, error, loading: false })),
   
-  on(UserActions.createUserSuccess, (state, { user }) => ({ ...state, users: [...state.users, user] })),
-  on(UserActions.updateUserSuccess, (state, { user }) => ({ 
+  on(createUserSuccess, (state, { user }) => ({ ...state, users: [...state.users, user] })),
+  on(updateUserSuccess, (state, { user }) => ({ 
     ...state, 
     users: state.users.map(u => u.id === user.id ? user : u) 
   })),
-  on(UserActions.deleteUserSuccess, (state, { id }) => ({ 
+  on(deleteUserSuccess, (state, { id }) => ({ 
     ...state, 
     users: state.users.filter(u => u.id !== id) 
   }))

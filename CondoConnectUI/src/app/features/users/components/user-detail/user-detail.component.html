@@ -1,13 +1,13 @@
-<div class="page-container" *ngIf="user">
+<div class="page-container">
   <header class="page-header">
     <div class="header-left-flex">
-      <p-avatar label="{{user.firstName[0]}}" shape="circle" size="xlarge" styleClass="header-avatar"></p-avatar>
+      <!-- <p-avatar label="{{user$().firstName[0]}}" shape="circle" size="xlarge" styleClass="header-avatar"></p-avatar> -->
       <div class="header-info">
-        <h1 class="page-title">{{user.firstName}} {{user.lastName}}</h1>
+        <!-- <h1 class="page-title">{{user$().firstName}} {{user$().lastName}}</h1> -->
         <div class="header-meta-row">
-          <span class="meta-tag">{{getRoleName(user.role)}}</span>
+          <!-- <span class="meta-tag">{{getRoleName(user$().role)}}</span> -->
           <span class="meta-tag"><i class="pi pi-map-marker"></i> Unit 1503</span>
-          <p-tag [value]="user.isActive ? 'Active' : 'Inactive'" [severity]="user.isActive ? 'success' : 'danger'"></p-tag>
+          <!-- <p-tag [value]="user$().isActive ? 'Active' : 'Inactive'" [severity]="user$().isActive ? 'success' : 'danger'"></p-tag> -->
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
               <div class="info-grid">
                 <div class="info-field">
                   <label>Email Address</label>
-                  <div class="value-box">{{user.email}}</div>
+                  <!-- <div class="value-box">{{user$().email}}</div> -->
                 </div>
                 <div class="info-field">
                   <label>Phone Number</label>

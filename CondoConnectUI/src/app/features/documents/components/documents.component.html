@@ -1,0 +1,32 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Document Management</h1>
+      <p class="page-desc">Access community guidelines and property handbooks.</p>
+    </div>
+    <div class="header-actions">
+      <p-button label="Upload Document" icon="pi pi-plus" severity="success"></p-button>
+    </div>
+  </header>
+
+  <div class="table-card">
+    <p-table [value]="(documents$ | async) ?? []" styleClass="p-datatable-gridlines-none">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Size</th>
+          <th>Date</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-doc>
+        <tr>
+          <td class="font-bold">{{doc.name}}</td>
+          <td>{{doc.category}}</td>
+          <td>{{doc.size}}</td>
+          <td>{{doc.date}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

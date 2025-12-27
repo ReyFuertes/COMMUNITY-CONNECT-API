@@ -1,29 +1,16 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { UserListComponent } from './features/users/components/user-list/user-list.component';
-import { UserDetailComponent } from './features/users/components/user-detail/user-detail.component';
-import { UnitListComponent } from './features/units/components/unit-list/unit-list.component';
-import { MaintenanceComponent } from './features/maintenance/maintenance.component';
-import { FinanceComponent } from './features/finance/finance.component';
-import { SecurityComponent } from './features/security/security.component';
-import { BookingsComponent } from './features/bookings/bookings.component';
-import { DocumentsComponent } from './features/documents/documents.component';
-import { EngagementComponent } from './features/engagement/engagement.component';
-import { ReportsComponent } from './features/reports/reports.component';
-import { SettingsComponent } from './features/settings/settings.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'users', component: UserListComponent },
-    { path: 'users/:id', component: UserDetailComponent },
-    { path: 'units', component: UnitListComponent },
-    { path: 'maintenance', component: MaintenanceComponent },
-    { path: 'finance', component: FinanceComponent },
-    { path: 'security', component: SecurityComponent },
-    { path: 'bookings', component: BookingsComponent },
-    { path: 'documents', component: DocumentsComponent },
-    { path: 'reports', component: ReportsComponent },
-    { path: 'settings', component: SettingsComponent },
-    { path: 'engagement', component: EngagementComponent }
+    { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
+    { path: 'users', loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule) },
+    { path: 'units', loadChildren: () => import('./features/units/units.module').then(m => m.UnitsModule) },
+    { path: 'maintenance', loadChildren: () => import('./features/maintenance/maintenance.module').then(m => m.MaintenanceModule) },
+    { path: 'finance', loadChildren: () => import('./features/finance/finance.module').then(m => m.FinanceModule) },
+    { path: 'security', loadChildren: () => import('./features/security/security.module').then(m => m.SecurityModule) },
+    { path: 'bookings', loadChildren: () => import('./features/bookings/bookings.module').then(m => m.BookingsModule) },
+    { path: 'documents', loadChildren: () => import('./features/documents/documents.module').then(m => m.DocumentsModule) },
+    { path: 'reports', loadChildren: () => import('./features/reports/reports.module').then(m => m.ReportsModule) },
+    { path: 'settings', loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule) },
+    { path: 'engagement', loadChildren: () => import('./features/engagement/engagement.module').then(m => m.EngagementModule) }
 ];

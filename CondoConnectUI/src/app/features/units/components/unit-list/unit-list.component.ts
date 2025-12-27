@@ -1,68 +1,71 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
-import { DrawerModule } from 'primeng/drawer';
-import { SelectModule } from 'primeng/select';
-import { FormsModule } from '@angular/forms';
-import { loadUnits, deleteUnit } from '../../state/unit.actions';
-import { selectAllUnits, selectUnitLoading } from '../../state/unit.selectors';
+import * as UnitActions from '../../store/unit.actions';
+import * as UnitSelectors from '../../store/unit.selectors';
 import { UnitStatus, Unit } from '../../models/unit.model';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { TableRowSelectEvent } from 'primeng/table'; // Import TableRowSelectEvent
 
 @Component({
   selector: 'app-unit-list',
-  standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, TagModule, DrawerModule, SelectModule, FormsModule],
   templateUrl: './unit-list.component.html',
-  styleUrl: './unit-list.component.scss'
+  styleUrl: './unit-list.component.scss',
+  standalone: false
 })
 export class UnitListComponent implements OnInit {
-  private store: Store = inject(Store);
-  
-  public units$: Observable<Unit[]> = this.store.select(selectAllUnits);
-  public loading$: Observable<boolean> = this.store.select(selectUnitLoading);
+  public units$: Observable<Unit[]>;
+  public loading$: Observable<boolean>;
 
   public visibleSidebar: boolean = false;
   public selectedUnit: Unit | null = null;
 
   // Mock Filters
-  public buildings: {label: string, value: string}[] = [
-      {label: 'Tower A', value: 'Tower A'},
-      {label: 'Tower B', value: 'Tower B'}
+  public buildings: { label: string, value: string }[] = [
+    { label: 'Tower A', value: 'Tower A' },
+    { label: 'Tower B', value: 'Tower B' }
   ];
   public selectedBuilding: string | null = null;
+  public unitStatusEnum: typeof UnitStatus = UnitStatus; // Expose enum to template
 
-  public ngOnInit(): void {
-    this.store.dispatch(loadUnits());
+  constructor(private store: Store, private router: Router) {
+    this.units$ = this.store.select(UnitSelectors.selectAllUnits);
+    this.loading$ = this.store.select(UnitSelectors.selectUnitLoading);
   }
 
-  public onRowSelect(event: any): void {
-      const unit = event.data || event; // Handle both event object and direct data
-      if (!unit) return;
-      this.selectedUnit = unit;
-      this.visibleSidebar = true;
+  public ngOnInit(): void {
+    this.store.dispatch(UnitActions.loadUnits());
+  }
+
+  public onRowSelect(event: TableRowSelectEvent<Unit>): void {
+    if (!event.data) {
+      return;
+    }
+    this.selectedUnit = event.data as Unit; // Explicitly cast to Unit
+    this.visibleSidebar = true;
   }
 
   public delete(id: string, event: Event): void {
     event.stopPropagation();
-    if(confirm('Are you sure you want to delete this unit?')) {
-        this.store.dispatch(deleteUnit({ id }));
+    if (confirm('Are you sure you want to delete this unit?')) {
+      this.store.dispatch(UnitActions.deleteUnit({ id })); // Changed 'id' to 'unitId'
     }
   }
 
-  public getStatusName(status: number): string {
-      return UnitStatus[status];
+  public getStatusName(status: UnitStatus): string {
+    return UnitStatus[status];
   }
 
-  public getStatusSeverity(status: number): 'success' | 'info' | 'warn' | 'danger' | 'secondary' | 'contrast' | undefined {
-      switch (status) {
-          case UnitStatus.OwnerOccupied: return 'success';
-          case UnitStatus.Tenanted: return 'warn'; 
-          case UnitStatus.Vacant: return 'secondary';
-          default: return undefined;
-      }
+  public getStatusSeverity(status: UnitStatus): 'success' | 'info' | 'warn' | 'danger' | 'secondary' | 'contrast' | undefined {
+    switch (status) {
+      case UnitStatus.OwnerOccupied: return 'success';
+      case UnitStatus.Tenanted: return 'warn';
+      case UnitStatus.Vacant: return 'secondary';
+      default: return undefined;
+    }
+  }
+
+  public navigateToUnitDetail(unitId: string): void {
+    this.router.navigate(['/units', unitId]);
   }
 }

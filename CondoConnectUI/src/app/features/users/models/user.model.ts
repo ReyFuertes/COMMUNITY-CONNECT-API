@@ -19,23 +19,10 @@ export interface User {
   showEmailInDirectory: boolean;
 }
 
-export interface CreateUserRequest {
-  firstName: string;
-  lastName: string;
-  email: string;
+export interface CreateUserRequest extends Omit<User, 'id' | 'createdDate' | 'lastModifiedDate'> {
   password?: string;
-  role: UserRole;
-  isActive: boolean;
-  optInToDirectory: boolean;
-  showEmailInDirectory: boolean;
 }
 
-export interface UpdateUserRequest {
+export interface UpdateUserRequest extends Partial<Omit<User, 'createdDate' | 'lastModifiedDate'>> {
   id: string;
-  firstName: string;
-  lastName: string;
-  role: UserRole;
-  isActive: boolean;
-  optInToDirectory: boolean;
-  showEmailInDirectory: boolean;
 }

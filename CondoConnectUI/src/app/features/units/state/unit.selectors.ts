@@ -8,12 +8,23 @@ export const selectAllUnits = createSelector(
   (state: UnitState) => state.units
 );
 
-export const selectUnitLoading = createSelector(
+export const selectSelectedUnitId = createSelector(
+  selectUnitState,
+  (state: UnitState) => state.selectedUnitId
+);
+
+export const selectSelectedUnit = createSelector(
+  selectAllUnits,
+  selectSelectedUnitId,
+  (units, selectedUnitId) => units.find(unit => unit.id === selectedUnitId)
+);
+
+export const selectUnitsLoading = createSelector(
   selectUnitState,
   (state: UnitState) => state.loading
 );
 
-export const selectUnitError = createSelector(
+export const selectUnitsError = createSelector(
   selectUnitState,
   (state: UnitState) => state.error
 );

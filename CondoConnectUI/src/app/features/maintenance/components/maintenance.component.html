@@ -1,0 +1,32 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Maintenance Requests</h1>
+      <p class="page-desc">Track and manage facility repairs and resident service requests.</p>
+    </div>
+    <div class="header-actions">
+      <p-button label="New Request" icon="pi pi-plus" severity="success"></p-button>
+    </div>
+  </header>
+
+  <div class="table-card">
+    <p-table [value]="(requests$ | async) ?? []">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Issue</th>
+          <th>Unit</th>
+          <th>Priority</th>
+          <th>Status</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-req>
+        <tr>
+          <td class="font-bold">{{req.issue}}</td>
+          <td>{{req.unit}}</td>
+          <td><p-tag [value]="req.priority" [severity]="getPrioritySev(req.priority)"></p-tag></td>
+          <td>{{req.status}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

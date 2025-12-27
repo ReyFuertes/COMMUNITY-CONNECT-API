@@ -1,0 +1,56 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Amenity Bookings</h1>
+      <p class="page-desc">Manage reservations for community facilities.</p>
+    </div>
+    <div class="header-actions">
+      <!-- Reactive Form for New Booking -->
+      <form [formGroup]="newBookingForm" (ngSubmit)="onSubmitNewBooking()" class="new-booking-form">
+        <div class="p-field">
+          <p-autocomplete formControlName="amenity" [suggestions]="filteredAmenities" (completeMethod)="searchAmenities($event)" placeholder="Amenity Name" [dropdown]="true" styleClass="w-full"></p-autocomplete>
+        </div>
+        <div class="p-field">
+          <p-autocomplete formControlName="resident" [suggestions]="filteredResidents" (completeMethod)="searchResidents($event)" placeholder="Resident Name" [dropdown]="true" styleClass="w-full"></p-autocomplete>
+        </div>
+        <div class="p-field">
+          <p-datepicker id="start" formControlName="start" [showTime]="true" [showSeconds]="false" placeholder="Select Start Time"></p-datepicker>
+        </div>
+        <div class="p-field">
+          <p-datepicker id="end" formControlName="end" [showTime]="true" [showSeconds]="false" placeholder="Select End Time"></p-datepicker>
+        </div>
+        <div class="p-field">
+          <p-select id="status" formControlName="status" [options]="[{label: 'Confirmed', value: 'Confirmed'}, {label: 'Pending', value: 'Pending'}, {label: 'Cancelled', value: 'Cancelled'}]" optionLabel="label" placeholder="Select Status"></p-select>
+        </div>
+        <p-button label="Add Booking" icon="pi pi-plus" type="submit" [disabled]="newBookingForm.invalid" styleClass="btn-submit"></p-button>
+      </form>
+    </div>
+  </header>
+
+  <div class="booking-grid">
+    <div class="calendar-card">
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+
+    <div class="booking-list-card">
+      <h3 class="card-title">Bookings for {{selectedDate() | date:'longDate'}}</h3>
+      <div class="booking-list">
+        <ng-container *ngFor="let booking of (getBookingsForSelectedDate() | async) ?? []">
+          <div class="booking-item">
+            <div class="booking-info">
+              <span class="booking-amenity">{{booking.amenity}}</span>
+              <span class="booking-resident">{{booking.resident}}</span>
+            </div>
+            <div class="booking-details">
+              <span class="booking-time">{{booking.start | date:'shortTime'}} - {{booking.end | date:'shortTime'}}</span>
+              <p-tag [value]="booking.status" [severity]="getSeverity(booking.status)"></p-tag>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="!((getBookingsForSelectedDate() | async)?.length)" class="no-bookings">
+          No bookings for this date.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

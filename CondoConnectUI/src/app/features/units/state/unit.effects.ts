@@ -42,9 +42,9 @@ export class UnitEffects {
 
   deleteUnit$ = createEffect(() => this.actions$.pipe(
     ofType(UnitActions.deleteUnit),
-    mergeMap(({ id }) => this.unitService.delete(id)
+    mergeMap(({ unitId }) => this.unitService.delete(unitId)
       .pipe(
-        map(() => UnitActions.deleteUnitSuccess({ id })),
+        map(() => UnitActions.deleteUnitSuccess({ unitId })),
         catchError(error => of(UnitActions.deleteUnitFailure({ error: error.message })))
       ))
     )
