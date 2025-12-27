@@ -1,13 +1,6 @@
-// Dashboard Styles - Action Center
-$text-main: #1E293B;
-$text-muted: #64748B;
-$border-color: #E2E8F0;
-$primary-blue: #4A90E2;
-$primary-green: #50C878;
-$primary-orange: #FF8C00;
-$primary-red: #EF4444;
-$primary-purple: #9B59B6;
+@use "../../../../styleguide/index" as *;
 
+// Dashboard Styles - Action Center
 .page-container {
   display: flex;
   flex-direction: column;
@@ -19,7 +12,7 @@ $primary-purple: #9B59B6;
   
   .page-title {
     font-size: 1.75rem;
-    font-weight: 700;
+    @include font-bold;
     margin: 0;
     letter-spacing: -0.5px;
     color: $text-main;
@@ -35,19 +28,28 @@ $primary-purple: #9B59B6;
 // Zone A: KPI Cards
 .stats-overview {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.5rem;
+
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .stat-card {
-  background: white;
+  @include card-base;
   padding: 1.25rem;
-  border-radius: 12px;
-  border: 1px solid $border-color;
   display: flex;
   align-items: center;
   gap: 1rem;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   transition: transform 0.2s;
 
   &:hover { transform: translateY(-2px); }
@@ -59,22 +61,21 @@ $primary-purple: #9B59B6;
     font-size: 1.5rem;
     width: 48px;
     height: 48px;
-    border-radius: 10px;
+    border-radius: $border-radius-sm;
     flex-shrink: 0;
   }
 
-  &.blue .stat-icon { color: $primary-blue; background-color: rgba(0, 132, 255, 0.1); }
-  &.green .stat-icon { color: $primary-green; background-color: rgba(80, 200, 120, 0.1); }
-  &.orange .stat-icon { color: $primary-orange; background-color: rgba(255, 140, 0, 0.1); }
-  &.purple .stat-icon { color: $primary-purple; background-color: rgba(155, 89, 182, 0.1); }
-  &.red .stat-icon { color: $primary-red; background-color: rgba(239, 68, 68, 0.1); }
+  &.orange .stat-icon { color: $primary-orange; background-color: rgba($primary-orange, 0.1); }
+  &.red .stat-icon { color: $primary-red; background-color: rgba($primary-red, 0.1); }
+  &.blue .stat-icon { color: $primary-blue; background-color: rgba($primary-blue, 0.1); }
   &.teal .stat-icon { color: #14B8A6; background-color: rgba(20, 184, 166, 0.1); }
+  &.purple .stat-icon { color: #9B59B6; background-color: rgba(155, 89, 182, 0.1); }
 
   .stat-detail {
     display: flex;
     flex-direction: column;
-    .label { font-size: 0.8rem; color: $text-muted; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-    .value { font-size: 1.1rem; font-weight: 700; color: $text-main; }
+    .label { font-size: 0.8rem; color: $text-muted; @include font-bold; text-transform: uppercase; letter-spacing: 0.5px; }
+    .value { font-size: 1.1rem; @include font-bold; color: $text-main; }
   }
 }
 
@@ -90,11 +91,8 @@ $primary-purple: #9B59B6;
 }
 
 .card-container {
-  background: white;
+  @include card-base;
   padding: 1.25rem;
-  border-radius: 12px;
-  border: 1px solid $border-color;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   margin-bottom: 1.5rem;
   
   &:last-child { margin-bottom: 0; }
@@ -102,7 +100,7 @@ $primary-purple: #9B59B6;
   .card-title {
     margin: 0 0 1rem 0;
     font-size: 1rem;
-    font-weight: 700;
+    @include font-bold;
     color: $text-main;
   }
   
@@ -113,7 +111,7 @@ $primary-purple: #9B59B6;
 }
 
 .unit-id {
-  font-weight: 700;
+  @include font-bold;
 }
 
 .date-cell {
@@ -122,7 +120,7 @@ $primary-purple: #9B59B6;
 
 .fine-amount {
   color: $primary-red;
-  font-weight: 700;
+  @include font-bold;
 }
 
 // Zone B: Operations Hub
@@ -132,7 +130,7 @@ $primary-purple: #9B59B6;
 
   ::ng-deep .p-tablist {
     border-bottom: 1px solid $border-color;
-    background: #F8FAFC;
+    background: $bg-body;
     padding: 0 1rem;
     display: flex; // Ensure tabs are row
 
@@ -141,7 +139,7 @@ $primary-purple: #9B59B6;
       border: none;
       border-bottom: 2px solid transparent;
       color: $text-muted;
-      font-weight: 600;
+      @include font-bold;
       padding: 1.25rem 1rem;
       transition: all 0.2s;
       cursor: pointer;
@@ -151,7 +149,7 @@ $primary-purple: #9B59B6;
 
     .p-tab-active {
       color: $primary-blue;
-      border-bottom-color: #0084FF;
+      border-bottom-color: $primary-blue;
     }
   }
 
@@ -165,16 +163,16 @@ $primary-purple: #9B59B6;
       font-size: 0.75rem;
       text-transform: uppercase;
       color: $text-muted;
-      border-bottom: 1px solid #F1F5F9;
+      border-bottom: 1px solid $border-color-light;
       padding: 0.75rem 1.5rem;
     }
     .p-datatable-tbody > tr > td {
       padding: 0.85rem 1.5rem;
       font-size: 0.9rem;
       color: $text-main;
-      border-bottom: 1px solid #F1F5F9;
+      border-bottom: 1px solid $border-color-light;
     }
-    .p-tag { font-size: 0.75rem; font-weight: 700; }
+    .p-tag { font-size: 0.75rem; @include font-bold; }
   }
 }
 
@@ -192,16 +190,16 @@ $primary-purple: #9B59B6;
     flex-direction: column;
     padding-bottom: 0.75rem; // Reduced from 1.5rem
     
-    .time { font-size: 0.7rem; font-weight: 700; color: $primary-blue; margin-bottom: 0.15rem; }
+    .time { font-size: 0.7rem; @include font-bold; color: $primary-blue; margin-bottom: 0.15rem; }
     .event-detail {
       display: flex;
       flex-direction: column;
-      background: #F8FAFC;
+      background: $bg-body;
       padding: 0.5rem 0.75rem; // Reduced padding
       border-radius: 8px;
-      border: 1px solid #F1F5F9;
+      border: 1px solid $border-color-light;
       
-      .event-name { font-weight: 700; font-size: 0.85rem; color: $text-main; }
+      .event-name { @include font-bold; font-size: 0.85rem; color: $text-main; }
       .event-user { font-size: 0.75rem; color: $text-muted; }
     }
   }
@@ -212,7 +210,7 @@ $primary-purple: #9B59B6;
     height: 2rem;
     align-items: center;
     justify-content: center;
-    color: #ffffff;
+    color: white;
     border-radius: 50%;
     z-index: 1;
   }
@@ -228,11 +226,11 @@ $primary-purple: #9B59B6;
     align-items: center;
     gap: 1rem;
     padding: 0.75rem;
-    border: 1px solid #F1F5F9;
+    border: 1px solid $border-color-light;
     border-radius: 8px;
     transition: background-color 0.2s;
 
-    &:hover { background-color: #F8FAFC; }
+    &:hover { background-color: $bg-body; }
 
     .item-icon {
       width: 40px;
@@ -250,8 +248,8 @@ $primary-purple: #9B59B6;
       flex-direction: column;
       gap: 0.25rem;
       
-      .item-type { font-size: 0.75rem; font-weight: 700; color: $text-muted; text-transform: uppercase; }
-      .item-detail { font-size: 0.9rem; font-weight: 600; color: $text-main; }
+      .item-type { font-size: 0.75rem; @include font-bold; color: $text-muted; text-transform: uppercase; }
+      .item-detail { font-size: 0.9rem; @include font-bold; color: $text-main; }
     }
   }
 }
@@ -292,14 +290,14 @@ $primary-purple: #9B59B6;
     align-items: center;
     justify-content: center;
     color: white;
-    font-weight: 700;
+    @include font-bold;
     font-size: 1.1rem;
     flex-shrink: 0;
   }
 
   .person-name {
     font-size: 0.8rem;
-    font-weight: 700;
+    @include font-bold;
     color: $text-main;
     max-width: 100px;
     white-space: nowrap;
@@ -313,6 +311,6 @@ $primary-purple: #9B59B6;
     background-color: #ECF0F1 !important;
     border-color: #ECF0F1 !important;
     color: #475569 !important;
-    border-radius: 4px;
+    border-radius: $border-radius-sm !important;
   }
 }

@@ -1,37 +1,50 @@
-// Unit List SCSS - Clean SaaS Blue Theme
-$text-main: #1E293B;
-$text-muted: #64748B;
-$primary-blue: #4A90E2;
-$border-color: #E2E8F0;
+@use "../../../../../styleguide/index" as *;
 
 .card-header {
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-bottom: 1px solid $border-color;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: white;
 
   .search-box {
     display: flex;
     align-items: center;
-    background-color: #F1F5F9;
-    border-radius: 8px;
+    border-radius: $border-radius-sm;
     padding: 0 1rem;
-    width: 280px;
+    width: 320px;
+    transition: all 0.2s;
+
+    &:focus-within {
+      border-color: $primary-orange;
+      background-color: white;
+    }
 
     i { color: $text-muted; margin-right: 0.75rem; }
-    input { background: transparent; border: none; padding: 0.6rem 0; width: 100%; font-size: 0.9rem; }
-    input:focus { outline: none; }
+    input { 
+      background: transparent; 
+      border: none; 
+      padding: 0.65rem; 
+      width: 100%; 
+      font-size: 0.9rem;
+      color: $text-main;
+      
+      &::placeholder { color: $text-light; }
+      &:focus { outline: none; }
+    }
   }
 
   .filter-actions {
     display: flex;
     gap: 0.75rem;
     
-    ::ng-deep .building-filter {
-      background-color: #F1F5F9;
-      border: none;
-      border-radius: 8px;
+    ::ng-deep .p-select {
+      background-color: $bg-topbar;
+      border: 1px solid $border-color;
+      border-radius: $border-radius-sm;
+      width: 200px;
+      
       .p-select-label { padding: 0.4rem 1rem; font-size: 0.9rem; }
     }
   }
@@ -39,13 +52,14 @@ $border-color: #E2E8F0;
 
 .clickable-row { cursor: pointer; }
 
-.unit-name-cell { font-weight: 700; color: $text-main; }
+.unit-name-cell { @include font-bold; color: $text-main; }
 .addr-cell { color: $text-muted; font-size: 0.9rem; }
 .loc-cell { color: $text-muted; font-size: 0.9rem; }
 
 .action-buttons {
   display: flex;
   gap: 0.5rem;
+  justify-content: flex-end;
 }
 
 .empty-msg { text-align: center; padding: 3rem; color: $text-muted; }
@@ -59,7 +73,7 @@ $border-color: #E2E8F0;
 
 .drawer-header {
   display: flex; align-items: center; gap: 0.75rem;
-  font-weight: 700; font-size: 1.1rem; color: $text-main;
+  @include font-bold; font-size: 1.1rem; color: $text-main;
   i { color: $primary-blue; }
 }
 
@@ -68,36 +82,36 @@ $border-color: #E2E8F0;
 .unit-hero {
   text-align: center;
   .unit-avatar {
-    width: 60px; height: 60px; background-color: rgba(74, 144, 226, 0.1);
-    color: $primary-blue; border-radius: 12px; display: flex;
+    width: 60px; height: 60px; background-color: rgba($primary-blue, 0.1);
+    color: $primary-blue; border-radius: $border-radius-sm; display: flex;
     align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1.5rem auto;
   }
-  .unit-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .unit-title { font-size: 1.5rem; @include font-bold; margin-bottom: 0.5rem; }
 }
 
 .detail-section {
-  .section-label { font-size: 0.85rem; font-weight: 700; color: $text-muted; text-transform: uppercase; margin-bottom: 1rem; }
+  .section-label { font-size: 0.85rem; @include font-bold; color: $text-muted; text-transform: uppercase; margin-bottom: 1rem; }
 }
 
 .tenant-card {
-  background-color: #F8FAFC; border: 1px solid $border-color; padding: 1.25rem; border-radius: 10px;
+  background-color: $bg-body; border: 1px solid $border-color; padding: 1.25rem; border-radius: $border-radius-sm;
   .tenant-main {
     display: flex; flex-direction: column; margin-bottom: 0.5rem;
-    .t-name { font-weight: 700; color: $text-main; }
+    .t-name { @include font-bold; color: $text-main; }
     .t-status { font-size: 0.85rem; color: $text-muted; }
   }
-  .t-since { font-size: 0.8rem; color: #10B981; font-weight: 700; }
+  .t-since { font-size: 0.8rem; color: $color-success; @include font-bold; }
 }
 
 .assets-flex { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
 .iot-status-card {
   display: flex; align-items: center; gap: 1rem; padding: 1rem;
-  background-color: #F8FAFC; border: 1px solid $border-color; border-radius: 10px;
-  i { font-size: 1.5rem; color: #FF8C00; }
+  background-color: $bg-body; border: 1px solid $border-color; border-radius: $border-radius-sm;
+  i { font-size: 1.5rem; color: $primary-orange; }
   .iot-info {
     display: flex; flex-direction: column;
-    .iot-name { font-weight: 700; font-size: 0.95rem; }
-    .iot-state { font-size: 0.85rem; color: #10B981; font-weight: 700; }
+    .iot-name { @include font-bold; font-size: 0.95rem; }
+    .iot-state { font-size: 0.85rem; color: $color-success; @include font-bold; }
   }
 }

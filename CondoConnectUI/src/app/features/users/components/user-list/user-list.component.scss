@@ -1,27 +1,38 @@
-// User List SCSS - Clean SaaS Green Theme
-$primary-green: #50C878;
-$text-main: #1E293B;
-$text-muted: #64748B;
-$border-color: #E2E8F0;
+@use "../../../../../styleguide/index" as *;
 
 .card-header {
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-bottom: 1px solid $border-color;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: white;
 
   .search-box {
     display: flex;
     align-items: center;
-    background-color: #F1F5F9;
-    border-radius: 8px;
+    border-radius: $border-radius-sm;
     padding: 0 1rem;
-    width: 300px;
+    width: 320px;
+    transition: all 0.2s;
+
+    &:focus-within {
+      border-color: $primary-orange;
+      background-color: white;
+    }
 
     i { color: $text-muted; margin-right: 0.75rem; }
-    input { background: transparent; border: none; padding: 0.6rem 0; width: 100%; font-size: 0.9rem; }
-    input:focus { outline: none; }
+    input { 
+      background: transparent; 
+      border: none; 
+      padding: 0.65rem; 
+      width: 100%; 
+      font-size: 0.9rem;
+      color: $text-main;
+      
+      &::placeholder { color: $text-light; }
+      &:focus { outline: none; }
+    }
   }
 
   .filter-actions {
@@ -37,29 +48,36 @@ $border-color: #E2E8F0;
 
   ::ng-deep .user-avatar-green {
     background-color: rgba(80, 200, 120, 0.1);
-    color: $primary-green;
-    font-weight: 700;
+    color: $sidebar-green-base;
+    @include font-bold;
   }
 
   .user-name-info {
     display: flex;
     flex-direction: column;
-    
-    .full-name { font-weight: 700; color: $text-main; }
-    .role-sub { font-size: 0.8rem; color: $text-muted; }
+
+    .full-name {
+      @include font-bold;
+      color: $text-main;
+    }
+
+    .role-sub {
+      font-size: 0.8rem;
+      color: $text-muted;
+    }
   }
 }
 
-.email-text { color: $text-muted; font-size: 0.9rem; }
+.email-text {
+  color: $text-muted;
+  font-size: 0.9rem;
+}
 
 .role-pill {
-  display: inline-flex;
-  padding: 0.25rem 0.75rem;
+  @include tag-base;
   background-color: #F1F5F9;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 700;
   color: #475569;
+  border-radius: 9999px !important;
 }
 
 .status-wrapper {
@@ -71,22 +89,52 @@ $border-color: #E2E8F0;
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    &.active { background-color: #10B981; box-shadow: 0 0 0 2px #D1FAE5; }
-    &.inactive { background-color: #EF4444; box-shadow: 0 0 0 2px #FEE2E2; }
+
+    &.active {
+      background-color: #10B981;
+    }
+
+    &.inactive {
+      background-color: #EF4444;
+    }
   }
 
-  .status-label { font-size: 0.85rem; font-weight: 700; color: $text-main; }
+  .status-label {
+    font-size: 0.85rem;
+    @include font-bold;
+    color: $text-main;
+  }
 }
 
 .action-buttons {
   display: flex;
   gap: 0.5rem;
+  justify-content: flex-end;
 }
 
-.col-user { width: 30%; }
-.col-email { width: 25%; }
-.col-role { width: 15%; }
-.col-status { width: 15%; }
-.col-actions { width: 15%; }
+.col-user {
+  width: 30%;
+}
 
-.empty-msg { text-align: center; padding: 3rem; color: $text-muted; }
+.col-email {
+  width: 25%;
+}
+
+.col-role {
+  width: 15%;
+}
+
+.col-status {
+  width: 15%;
+}
+
+.col-actions {
+  width: 15%;
+  text-align: right !important;
+}
+
+.empty-msg {
+  text-align: center;
+  padding: 3rem;
+  color: $text-muted;
+}

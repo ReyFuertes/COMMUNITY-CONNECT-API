@@ -1,8 +1,5 @@
 // Bookings SCSS
-$border-color: #E2E8F0;
-$text-main: #1E293B;
-$text-muted: #64748B;
-$primary-blue: #0084FF;
+@use "../../../../styleguide/index" as *;
 
 .page-container {
   display: flex;
@@ -10,15 +7,7 @@ $primary-blue: #0084FF;
   gap: 0;
 
   ::ng-deep .p-button {
-    background-color: #FF8C00 !important;
-    border-color: #FF8C00 !important;
-    color: white !important;
-    border-radius: 4px !important;
-
-    &:hover {
-      background-color: #e67e00 !important;
-      border-color: #e67e00 !important;
-    }
+    @include button-variant($primary-orange, $primary-orange, white);
   }
 }
 
@@ -51,12 +40,13 @@ $primary-blue: #0084FF;
     .new-booking-form {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      background-color: #f8fafc;
-      padding: 1.25rem;
-      border-radius: 12px;
+      gap: 1.25rem;
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: $border-radius-md;
       border: 1px solid $border-color;
-      align-items: center;
+      align-items: flex-end;
+      box-shadow: $shadow-sm;
 
       @media (max-width: 1200px) {
         grid-template-columns: repeat(2, 1fr);
@@ -67,8 +57,7 @@ $primary-blue: #0084FF;
       }
       
       .p-field {
-        display: flex;
-        flex-direction: column;
+        @include form-group;
 
         &:nth-child(1), &:nth-child(2) {
           grid-column: span 2;
@@ -78,75 +67,38 @@ $primary-blue: #0084FF;
           }
         }
 
-        label {
-          font-size: 0.8rem;
-          color: $text-muted;
-          font-weight: 700;
-          margin-bottom: 0.5rem;
-        }
-
         .p-inputtext, ::ng-deep .p-datepicker, ::ng-deep .p-select, ::ng-deep .p-autocomplete {
-          width: 100% !important;
-          
-          input, .p-select-label, .p-autocomplete-input {
-            height: 40px;
-            display: flex;
-            align-items: center;
-          }
-
           &:not(.p-disabled).p-focus, 
           &:not(.p-disabled):focus-within {
-            border-color: #FF8C00 !important;
-            box-shadow: none !important;
+            border-color: $primary-orange !important;
           }
         }
 
         ::ng-deep .p-datepicker {
           .p-datepicker-trigger {
-            background-color: #FF8C00 !important;
-            border-color: #FF8C00 !important;
-            color: white !important;
-            border-radius: 0 4px 4px 0 !important;
-
-            &:hover {
-              background-color: #ffa533 !important;
-              border-color: #ffa533 !important;
-            }
+            @include button-variant($primary-orange, $primary-orange, white);
+            border-radius: 0 $border-radius-sm $border-radius-sm 0 !important;
           }
         }
 
         ::ng-deep .p-autocomplete {
           .p-autocomplete-dropdown {
-            background-color: #FF8C00 !important;
-            border-color: #FF8C00 !important;
-            color: white !important;
-            border-radius: 0 4px 4px 0 !important;
-
-            &:hover {
-              background-color: #ffa533 !important;
-              border-color: #ffa533 !important;
-            }
+            border-radius: 0 $border-radius-sm $border-radius-sm 0 !important;
           }
         }
 
         ::ng-deep .p-select {
           .p-select-dropdown {
-            color: #FF8C00 !important;
+            color: $primary-orange !important;
           }
         }
       }
       
       .btn-submit {
-        height: 40px;
-        white-space: nowrap;
-        background-color: #FF8C00 !important;
-        border-color: #FF8C00 !important;
-        color: white !important;
-
-        &:hover {
-          background-color: #e67e00 !important;
-          border-color: #e67e00 !important;
-        }
+        @include button-base;
+        @include button-variant($primary-orange, $primary-orange, white);
+        height: 42px;
+        width: 100%;
       }
     }
   }
@@ -163,10 +115,8 @@ $primary-blue: #0084FF;
 }
 
 .calendar-card, .booking-list-card {
-  background: white;
+  @include card-base;
   padding: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid $border-color;
 }
 
 .calendar-card {
@@ -183,14 +133,14 @@ $primary-blue: #0084FF;
 
     .fc {
       --fc-border-color: #E2E8F0;
-      --fc-button-bg-color: #FF8C00;
-      --fc-button-border-color: #FF8C00;
-      --fc-button-hover-bg-color: #ffa533;
-      --fc-button-hover-border-color: #ffa533;
-      --fc-button-active-bg-color: #e67e00;
-      --fc-button-active-border-color: #e67e00;
+      --fc-button-bg-color: #{$primary-orange};
+      --fc-button-border-color: #{$primary-orange};
+      --fc-button-hover-bg-color: #{filter-brightness(#FF8C00, 1.1)};
+      --fc-button-hover-border-color: #{filter-brightness(#FF8C00, 1.1)};
+      --fc-button-active-bg-color: #{filter-brightness(#FF8C00, 0.9)};
+      --fc-button-active-border-color: #{filter-brightness(#FF8C00, 0.9)};
       --fc-today-bg-color: rgba(255, 140, 0, 0.05);
-      --fc-button-border-radius: 4px;
+      --fc-button-border-radius: #{$border-radius-sm};
       
       font-family: inherit;
 
@@ -206,14 +156,14 @@ $primary-blue: #0084FF;
     .fc-toolbar-title {
       font-size: 1.25rem !important;
       font-weight: 700;
-      color: #420D3F;
+      color: $primary-plum;
     }
 
     .fc-event {
       cursor: pointer;
       border: none;
       padding: 2px 4px;
-      border-radius: 4px;
+      border-radius: $border-radius-sm;
       font-size: 0.8rem;
     }
 
@@ -227,7 +177,7 @@ $primary-blue: #0084FF;
   .card-title {
     margin: 0 0 1.5rem 0;
     font-size: 1.25rem;
-    font-weight: 700;
+    @include font-bold;
     color: $text-main;
   }
 
@@ -241,24 +191,32 @@ $primary-blue: #0084FF;
       justify-content: space-between;
       align-items: center;
       padding: 1rem;
-      background: #F8FAFC;
-      border-radius: 8px;
-      border: 1px solid #F1F5F9;
+      background: $bg-body;
+      border-radius: $border-radius-md;
+      border: 1px solid $border-color-light;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-sm;
+        border-color: $border-color;
+      }
 
       .booking-info {
         display: flex;
         flex-direction: column;
         
-        .booking-amenity { font-weight: 700; color: $text-main; font-size: 1rem; }
+        .booking-amenity { @include font-bold; color: $text-main; font-size: 1rem; }
         .booking-resident { font-size: 0.9rem; color: $text-muted; }
       }
 
       .booking-details {
         display: flex;
-        align-items: center;
-        gap: 1rem;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.5rem;
 
-        .booking-time { font-weight: 600; color: $primary-blue; }
+        .booking-time { font-weight: 600; color: $primary-blue; font-size: 0.85rem; }
       }
     }
 

@@ -1,3 +1,5 @@
+@use "../../../../styleguide/index" as *;
+
 // Maintenance SCSS
 $border-color: #E2E8F0;
 $text-main: #1E293B;
@@ -10,14 +12,11 @@ $text-muted: #64748B;
 }
 
 .stat-card {
-  background-color: white;
-  border: 1px solid $border-color;
-  border-radius: 12px;
+  @include card-base;
   padding: 1.5rem;
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 
   .stat-icon {
     width: 48px; height: 48px; border-radius: 10px;

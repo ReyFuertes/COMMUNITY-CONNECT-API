@@ -1,3 +1,5 @@
+@use "./styleguide/index" as *;
+
 .support-grid {
   display: grid;
   grid-template-columns: 1fr 350px;
@@ -12,10 +14,8 @@
 }
 
 .faq-item {
-  background: white;
+  @include card-base;
   padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .faq-question {

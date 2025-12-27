@@ -1,7 +1,4 @@
-// Engagement SCSS
-$border-color: #E2E8F0;
-$text-main: #1E293B;
-$text-muted: #64748B;
+@use "../../../../styleguide/index" as *;
 
 .feed-grid {
   display: flex;
@@ -11,11 +8,8 @@ $text-muted: #64748B;
 }
 
 .post-card {
-  background-color: white;
-  border: 1px solid $border-color;
-  border-radius: 12px;
+  @include card-base;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 
   .post-header {
     display: flex;
