@@ -1,4 +1,4 @@
 // main styleguide entry
-@import 'variables';
-@import 'typography';
-@import 'mixins';
+@forward 'variables';
+@forward 'typography';
+@forward 'mixins';

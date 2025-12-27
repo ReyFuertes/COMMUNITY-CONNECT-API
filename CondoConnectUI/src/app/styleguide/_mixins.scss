@@ -1,5 +1,5 @@
 // _mixins.scss
-@import 'variables';
+@use 'variables' as *;
 
 @mixin card-base {
   background-color: $bg-card;

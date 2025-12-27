@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -7,17 +7,22 @@ import { BadgeModule } from 'primeng/badge';
 import { TooltipModule } from 'primeng/tooltip';
 import { RippleModule } from 'primeng/ripple';
 import { Conversation, ChatMessage } from '../../models/chat.model';
+import { HighlightPipe } from '../../pipes/highlight.pipe';
 
 @Component({
   selector: 'app-floating-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonModule, AvatarModule, BadgeModule, TooltipModule, RippleModule],
+  imports: [CommonModule, FormsModule, ButtonModule, AvatarModule, BadgeModule, TooltipModule, RippleModule, HighlightPipe],
   templateUrl: './floating-chat.component.html',
   styleUrl: './floating-chat.component.scss'
 })
-export class FloatingChatComponent implements OnInit {
+export class FloatingChatComponent implements OnInit, AfterViewChecked {
+  @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
+
   public isExpanded: boolean = true;
   public newMessage: string = '';
+  public isSearchActive: boolean = false;
+  public searchQuery: string = '';
 
   public conversations: Conversation[] = [
     { id: 'general', participantName: 'General Chat', lastMessage: 'All posts secured for shift change.', lastMessageTime: '1m ago', unreadCount: 0, status: 'online', avatar: 'pi-users', color: '#E3F2FD' },
@@ -72,10 +77,23 @@ export class FloatingChatComponent implements OnInit {
 
   public activeConversation: Conversation = this.conversations[0];
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.scrollToBottom();
+  }
+
+  public ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+
+  public scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
+  }
 
   public selectConversation(conv: Conversation): void {
     this.activeConversation = conv;
+    this.scrollToBottom();
   }
 
   public getInitials(name: string): string {
@@ -85,6 +103,13 @@ export class FloatingChatComponent implements OnInit {
       return (parts[0][0] + parts[1][0]).toUpperCase();
     }
     return name.slice(0, 2).toUpperCase();
+  }
+
+  public toggleSearch(): void {
+    this.isSearchActive = !this.isSearchActive;
+    if (!this.isSearchActive) {
+      this.searchQuery = '';
+    }
   }
 
   public sendMessage(): void {

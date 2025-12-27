@@ -1,14 +1,16 @@
 // Layout SCSS - Professional Mirror Sidebars
-@import "./styleguide/index";
+@use "./styleguide/index" as *;
 
 $sidebar-width: 260px;
 $sidebar-collapsed-width: 80px;
 $support-sidebar-width: 350px;
 $topbar-height: 70px;
-$primary-blue: #4A90E2;
+$primary-blue: #0084FF;
 $border-color: #E2E8F0;
 $text-main: #1E293B;
-$text-muted: #64748B;
+$text-main: #1E293B;
+$text-muted: #CBD5E1; // Lighter gray for muted text and secondary buttons
+$border-color: #E2E8F0;
 
 .layout-wrapper {
   display: flex;
@@ -47,6 +49,11 @@ $text-muted: #64748B;
 .layout-support-sidebar {
   width: $support-sidebar-width;
   right: 0;
+  position: fixed; /* Ensure fixed positioning is applied */
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  z-index: 100;
   background-color: white;
   border-left: 1px solid $border-color;
 }
@@ -214,5 +221,5 @@ $text-muted: #64748B;
       .n-content { display: flex; flex-direction: column; gap: 0.25rem; .n-item-title { font-weight: 700; font-size: 0.9rem; color: $text-main; } .n-item-desc { font-size: 0.8rem; color: $text-muted; line-height: 1.4; } .n-item-time { font-size: 0.75rem; color: #94A3B8; margin-top: 0.25rem; } }
     }
   }
-  .notification-footer { padding: 0.5rem; border-top: 1px solid $border-color; text-align: center; ::ng-deep .full-width-btn { width: 100%; .p-button-label { font-weight: 700; } } }
+  .notification-footer { padding: 0.5rem; border-top: 1px solid $border-color; text-align: center; ::ng-deep .view-all-btn { width: 100%; .p-button-label { font-weight: 700; } } }
 }

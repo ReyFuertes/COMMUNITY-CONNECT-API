@@ -1,0 +1,187 @@
+$text-main: #1E293B;
+$text-muted: #64748B;
+$border-color: #E2E8F0;
+
+// Professional Button Colors
+$btn-pdf-bg: #E74C3C;
+$btn-excel-bg: #27AE60;
+$btn-email-bg: #3498DB;
+$btn-apply-bg: #ECF0F1; // Lighter gray for black text // Gray color for detail
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  
+  .page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+    color: $text-main;
+  }
+
+  .page-desc {
+    color: $text-muted;
+    margin: 0.15rem 0 0 0;
+    font-size: 0.95rem;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 0.75rem; // Increased gap slightly for buttons
+  }
+}
+
+.filter-card {
+  background: white;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid $border-color;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  margin-bottom: 1rem;
+
+  .filter-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    align-items: end;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    
+    .filter-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: $text-muted;
+      text-transform: uppercase;
+    }
+  }
+
+  .self-end {
+    align-self: end;
+  }
+}
+
+.report-table-card {
+  background: white;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid $border-color;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+
+  .card-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $text-main;
+  }
+}
+
+// Custom Button Styles
+::ng-deep {
+  .btn-export-pdf.p-button {
+    min-height: 40px;
+    background-color: $btn-pdf-bg !important;
+    border-color: $btn-pdf-bg !important;
+    color: white !important;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(231, 76, 60, 0.2);
+    border-radius: 4px;
+    &:hover { filter: brightness(1.1); }
+  }
+
+  .btn-export-excel.p-button {
+    min-height: 40px;
+    background-color: $btn-excel-bg !important;
+    border-color: $btn-excel-bg !important;
+    color: white !important;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.2);
+    border-radius: 4px;
+    &:hover { filter: brightness(1.1); }
+  }
+
+  .btn-email.p-button {
+    min-height: 40px;
+    background-color: $btn-email-bg !important;
+    border-color: $btn-email-bg !important;
+    color: white !important;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.2);
+    border-radius: 4px;
+    &:hover { filter: brightness(1.1); }
+  }
+
+  .btn-apply.p-button {
+    min-height: 40px;
+    background-color: $btn-apply-bg !important;
+    border-color: $btn-apply-bg !important;
+    color: #475569 !important;
+    font-weight: 600;
+    border-radius: 4px;
+    &:hover { filter: brightness(0.95); }
+  }
+
+  // Input & Picker Fixes
+  .custom-input {
+    // Target inner input elements for consistency
+    .p-inputtext, 
+    .p-select, 
+    .p-datepicker-input {
+      min-height: 40px;
+      border-radius: 6px !important;
+      border-color: #CBD5E1 !important;
+      padding-top: 0.6rem;
+      padding-bottom: 0.6rem;
+      
+      &:enabled:focus {
+        border-color: #0084FF !important; // Focus color matching new primary blue
+        box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1) !important;
+      }
+    }
+
+    // Fix select dropdown trigger
+    .p-select-label {
+      padding-top: 0.6rem;
+      padding-bottom: 0.6rem;
+      min-height: 40px; // Ensure select dropdown label also has min-height
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+// Utility classes for widths
+.w-full {
+  width: 100%;
+}
+
+::ng-deep .p-select {
+    width: 100%;
+}
+
+::ng-deep .p-datepicker {
+    width: 100%;
+    .p-inputtext { width: 100%; }
+}
+
+.font-weight-bold {
+  font-weight: 700;
+}
+
+.empty-message-cell {
+  text-align: center;
+  padding: 1.5rem;
+  color: $text-muted;
+}

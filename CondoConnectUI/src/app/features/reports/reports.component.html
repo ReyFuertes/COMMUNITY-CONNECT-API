@@ -1,0 +1,66 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-info">
+      <h1 class="page-title">Reports & Analytics</h1>
+      <p class="page-desc">Generate detailed reports for maintenance, financials, and community operations.</p>
+    </div>
+    <div class="header-actions">
+      <p-button label="Export PDF" styleClass="btn-export-pdf" (onClick)="exportPdf()"></p-button>
+      <p-button label="Export Excel" styleClass="btn-export-excel" (onClick)="exportExcel()"></p-button>
+      <p-button label="Email Report" styleClass="btn-email" (onClick)="sendEmail()"></p-button>
+    </div>
+  </header>
+
+  <div class="reports-content">
+    <div class="filter-card">
+      <div class="filter-row">
+        <div class="filter-group">
+          <p-select [options]="reportTypes" [(ngModel)]="selectedReportType" optionLabel="label" (onChange)="onReportTypeChange()" styleClass="w-full custom-input" placeholder="Select Report Type"></p-select>
+        </div>
+        <div class="filter-group">
+          <p-datepicker [(ngModel)]="dateRange" selectionMode="range" [readonlyInput]="true" placeholder="Select Date Range" styleClass="w-full custom-input" [showIcon]="true"></p-datepicker>
+        </div>
+        <div class="filter-group">
+          <input type="text" pInputText placeholder="Unit Number (e.g. 402)" [(ngModel)]="filterUnit" class="w-full custom-input">
+        </div>
+        <div class="filter-group self-end">
+          <p-button label="Apply Filters" styleClass="btn-apply" class="w-full"></p-button>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-table-card">
+      <h3 class="card-title">{{selectedReportType.label}}</h3>
+      
+      <p-table [value]="currentData" [columns]="cols" [paginator]="true" [rows]="10" responsiveLayout="scroll" styleClass="p-datatable-gridlines">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns">
+              <ng-container *ngIf="col.field === 'status'; else defaultCell">
+                <p-tag [value]="rowData[col.field]" [severity]="getSeverity(rowData[col.field])"></p-tag>
+              </ng-container>
+              <ng-template #defaultCell>
+                <span *ngIf="col.field === 'unit'" class="font-weight-bold">{{rowData[col.field]}}</span>
+                <span *ngIf="col.field !== 'unit'">{{rowData[col.field]}}</span>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="cols.length" class="empty-message-cell">
+              No records found for the selected criteria.
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

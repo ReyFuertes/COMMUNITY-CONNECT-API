@@ -83,4 +83,10 @@ $border-color: #E2E8F0;
   gap: 0.5rem;
 }
 
+.col-user { width: 30%; }
+.col-email { width: 25%; }
+.col-role { width: 15%; }
+.col-status { width: 15%; }
+.col-actions { width: 15%; }
+
 .empty-msg { text-align: center; padding: 3rem; color: $text-muted; }

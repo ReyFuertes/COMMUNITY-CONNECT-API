@@ -1,23 +1,35 @@
-<div class="chat-panel shadow-sm">
+<div class="chat-panel">
   <!-- Chat Content -->
   <div class="chat-content">
     <header class="panel-header">
-      <div class="header-user">
-        <span class="u-name">{{activeConversation.participantName}}</span>
-        <span class="u-status">{{activeConversation.id === 'general' ? 'Team Channel' : activeConversation.status}}</span>
-      </div>
-      <div class="header-search-trigger">
-        <i class="pi pi-search"></i>
-        <span class="search-text">Search</span>
+      <ng-container *ngIf="!isSearchActive">
+        <div class="header-user">
+          <span class="u-name">{{activeConversation.participantName}}</span>
+          <span class="u-status">{{activeConversation.id === 'general' ? 'Team Channel' : activeConversation.status}}</span>
+        </div>
+        <div class="header-search-trigger" (click)="toggleSearch()">
+          <i class="pi pi-search"></i>
+          <span class="search-text">Search</span>
+        </div>
+      </ng-container>
+
+      <div class="header-search-bar" *ngIf="isSearchActive">
+        <i class="pi pi-search search-icon"></i>
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Search messages..." 
+          [(ngModel)]="searchQuery" 
+          autoFocus>
+        <i class="pi pi-times close-icon" (click)="toggleSearch()"></i>
       </div>
     </header>
 
-    <div class="message-container">
+    <div class="message-container" #scrollMe>
       <div class="msg-group" *ngFor="let msg of messagesMap[activeConversation.id]" [ngClass]="{'me': msg.isMe}">
         <div class="bubble-wrapper">
           <span class="sender-label" *ngIf="activeConversation.id === 'general' && !msg.isMe">{{msg.senderName}}</span>
-          <div class="msg-bubble" [ngClass]="msg.isMe ? 'bubble-me' : 'bubble-other'">
-            {{msg.content}}
+          <div class="msg-bubble" [ngClass]="msg.isMe ? 'bubble-me' : 'bubble-other'" [innerHTML]="msg.content | highlight: searchQuery">
           </div>
         </div>
       </div>

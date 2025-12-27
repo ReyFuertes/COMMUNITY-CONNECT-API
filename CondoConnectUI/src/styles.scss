@@ -1,5 +1,5 @@
+@use "app/styleguide/index" as *;
 @import "primeicons/primeicons.css";
-@import "app/styleguide/index";
 
 /* --- CSS Variables Populated from Styleguide --- */
 :root {
@@ -147,8 +147,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .p-button.p-button-secondary {
-  background-color: #6c757d !important;
-  border-color: #6c757d !important;
+  background-color: #f1f1f1 !important; /* New lighter gray */
+  border-color: #f1f1f1 !important; /* New lighter gray */
+  color: #888888 !important; /* New text color */
 }
 
 .p-inputtext {

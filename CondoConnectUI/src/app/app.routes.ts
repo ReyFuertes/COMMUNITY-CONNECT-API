@@ -9,6 +9,8 @@ import { SecurityComponent } from './features/security/security.component';
 import { BookingsComponent } from './features/bookings/bookings.component';
 import { DocumentsComponent } from './features/documents/documents.component';
 import { EngagementComponent } from './features/engagement/engagement.component';
+import { ReportsComponent } from './features/reports/reports.component';
+import { SettingsComponent } from './features/settings/settings.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -21,5 +23,7 @@ export const routes: Routes = [
     { path: 'security', component: SecurityComponent },
     { path: 'bookings', component: BookingsComponent },
     { path: 'documents', component: DocumentsComponent },
+    { path: 'reports', component: ReportsComponent },
+    { path: 'settings', component: SettingsComponent },
     { path: 'engagement', component: EngagementComponent }
 ];
