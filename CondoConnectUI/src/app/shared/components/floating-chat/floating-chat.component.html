@@ -27,20 +27,20 @@
 
     <div class="message-container" #scrollMe>
       <ng-container *ngFor="let item of groupedMessages">
-        <ng-container *ngIf="item.type === 'dateDivider'; else messageBlock">
+        <ng-container *ngIf="isChatDateDivider(item)">
           <div class="date-divider">
-            <span>{{ (item as ChatDateDivider).date | date:'mediumDate' }}</span>
+            <span>{{ item.date | date:'mediumDate' }}</span>
           </div>
         </ng-container>
-        <ng-template #messageBlock>
-          <div class="msg-group" [ngClass]="{'me': (item as ChatMessage).isMe}">
+        <ng-container *ngIf="isChatMessage(item)">
+          <div class="msg-group" [ngClass]="{'me': item.isMe}">
             <div class="bubble-wrapper">
-              <span class="sender-label" *ngIf="activeConversation.id === 'general' && !(item as ChatMessage).isMe">{{(item as ChatMessage).senderName}}</span>
-              <div class="msg-bubble" [ngClass]="(item as ChatMessage).isMe ? 'bubble-me' : 'bubble-other'" [innerHTML]="(item as ChatMessage).content | highlight: searchQuery">
+              <span class="sender-label" *ngIf="activeConversation.id === 'general' && !item.isMe">{{item.senderName}}</span>
+              <div class="msg-bubble" [ngClass]="item.isMe ? 'bubble-me' : 'bubble-other'" [innerHTML]="item.content | highlight: searchQuery">
               </div>
             </div>
           </div>
-        </ng-template>
+        </ng-container>
       </ng-container>
     </div>
 

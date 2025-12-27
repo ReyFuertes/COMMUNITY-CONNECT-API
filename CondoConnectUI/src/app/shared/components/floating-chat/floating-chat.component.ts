@@ -142,21 +142,66 @@ export class FloatingChatComponent implements OnInit, AfterViewChecked {
     this.groupedMessages = this.groupMessagesByDate(currentMessages);
   }
 
-  private groupMessagesByDate(messages: ChatMessage[]): ChatDisplayItem[] {
-    const displayItems: ChatDisplayItem[] = [];
-    let lastDate: string | null = null;
+    private groupMessagesByDate(messages: ChatMessage[]): ChatDisplayItem[] {
 
-    messages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime()); // Ensure messages are sorted by time
+      const displayItems: ChatDisplayItem[] = [];
 
-    for (const message of messages) {
-      const messageDate = message.timestamp.toDateString();
-      if (messageDate !== lastDate) {
-        // Insert a date divider
-        displayItems.push({ type: 'dateDivider', date: message.timestamp });
-        lastDate = messageDate;
+      let lastDate: string | null = null;
+
+  
+
+      messages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime()); // Ensure messages are sorted by time
+
+  
+
+      for (const message of messages) {
+
+        const messageDate = message.timestamp.toDateString();
+
+        if (messageDate !== lastDate) {
+
+          // Insert a date divider
+
+          displayItems.push({ type: 'dateDivider', date: message.timestamp });
+
+          lastDate = messageDate;
+
+        }
+
+        displayItems.push(message);
+
       }
-      displayItems.push(message);
+
+      return displayItems;
+
     }
-    return displayItems;
+
+  
+
+    // Type guard to check if an item is a ChatDateDivider
+
+    public isChatDateDivider(item: ChatDisplayItem): item is ChatDateDivider {
+
+      return (item as ChatDateDivider).type === 'dateDivider';
+
+    }
+
+  
+
+      // Type guard to check if an item is a ChatMessage
+
+  
+
+      public isChatMessage(item: ChatDisplayItem): item is ChatMessage {
+
+  
+
+        return !this.isChatDateDivider(item);
+
+  
+
+      }
+
   }
-}
+
+  
