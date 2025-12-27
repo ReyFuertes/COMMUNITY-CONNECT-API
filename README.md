@@ -1,4 +1,5 @@
 # Community Connect
+<img width="1910" height="908" alt="image" src="https://github.com/user-attachments/assets/0dc4cfd1-9e91-4fc1-8ea8-a0370bce2d14" />
 
 Community Connect is a microservices-based application designed to manage users, units, pets, and vehicles within a community. It leverages .NET for backend services and Docker Compose for easy deployment and orchestration.
 
