@@ -7,66 +7,146 @@ $primary-blue: #0084FF;
 .page-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0;
+
+  ::ng-deep .p-button {
+    background-color: #FF8C00 !important;
+    border-color: #FF8C00 !important;
+    color: white !important;
+    border-radius: 4px !important;
+
+    &:hover {
+      background-color: #e67e00 !important;
+      border-color: #e67e00 !important;
+    }
+  }
 }
 
 .page-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
   
-  .page-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: -0.5px;
-    color: $text-main;
-  }
+  .header-info {
+    .page-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.5px;
+      color: $text-main;
+    }
 
-  .page-desc {
-    color: $text-muted;
-    margin: 0.25rem 0 0 0;
-    font-size: 1rem;
+    .page-desc {
+      color: $text-muted;
+      margin: 0.25rem 0 0 0;
+      font-size: 1rem;
+    }
   }
 
   .header-actions {
-    display: flex;
-    gap: 0.75rem;
+    width: 100%;
 
     .new-booking-form {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
       background-color: #f8fafc;
-      padding: 1rem;
-      border-radius: 8px;
+      padding: 1.25rem;
+      border-radius: 12px;
       border: 1px solid $border-color;
+      align-items: center;
+
+      @media (max-width: 1200px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+      }
       
       .p-field {
         display: flex;
         flex-direction: column;
-        min-width: 150px;
-        flex-grow: 1;
+
+        &:nth-child(1), &:nth-child(2) {
+          grid-column: span 2;
+          
+          @media (max-width: 1200px) {
+            grid-column: span 1;
+          }
+        }
 
         label {
           font-size: 0.8rem;
           color: $text-muted;
           font-weight: 700;
-          margin-bottom: 0.25rem;
+          margin-bottom: 0.5rem;
         }
 
-        .p-inputtext, .p-datepicker, ::ng-deep .p-select {
-          min-height: 40px;
-          width: 100%;
-          .p-inputtext { width: 100%; }
+        .p-inputtext, ::ng-deep .p-datepicker, ::ng-deep .p-select, ::ng-deep .p-autocomplete {
+          width: 100% !important;
+          
+          input, .p-select-label, .p-autocomplete-input {
+            height: 40px;
+            display: flex;
+            align-items: center;
+          }
+
+          &:not(.p-disabled).p-focus, 
+          &:not(.p-disabled):focus-within {
+            border-color: #FF8C00 !important;
+            box-shadow: none !important;
+          }
+        }
+
+        ::ng-deep .p-datepicker {
+          .p-datepicker-trigger {
+            background-color: #FF8C00 !important;
+            border-color: #FF8C00 !important;
+            color: white !important;
+            border-radius: 0 4px 4px 0 !important;
+
+            &:hover {
+              background-color: #ffa533 !important;
+              border-color: #ffa533 !important;
+            }
+          }
+        }
+
+        ::ng-deep .p-autocomplete {
+          .p-autocomplete-dropdown {
+            background-color: #FF8C00 !important;
+            border-color: #FF8C00 !important;
+            color: white !important;
+            border-radius: 0 4px 4px 0 !important;
+
+            &:hover {
+              background-color: #ffa533 !important;
+              border-color: #ffa533 !important;
+            }
+          }
+        }
+
+        ::ng-deep .p-select {
+          .p-select-dropdown {
+            color: #FF8C00 !important;
+          }
         }
       }
       
-      button {
-        align-self: flex-end;
-        flex-grow: 1;
-        min-width: 120px;
+      .btn-submit {
+        height: 40px;
+        white-space: nowrap;
+        background-color: #FF8C00 !important;
+        border-color: #FF8C00 !important;
+        color: white !important;
+
+        &:hover {
+          background-color: #e67e00 !important;
+          border-color: #e67e00 !important;
+        }
       }
     }
   }
@@ -78,7 +158,7 @@ $primary-blue: #0084FF;
   gap: 1.5rem;
 
   @media (min-width: 1200px) {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 3fr 1fr;
   }
 }
 
@@ -87,45 +167,58 @@ $primary-blue: #0084FF;
   padding: 1.5rem;
   border-radius: 12px;
   border: 1px solid $border-color;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .calendar-card {
-  ::ng-deep .p-datepicker-header {
-    background-color: transparent;
-    border-bottom: 1px solid $border-color;
-  }
-
-  ::ng-deep .p-datepicker-calendar {
-    width: 100%;
-    
-    .calendar-day {
-      position: relative;
+  min-height: 700px;
+  display: flex;
+  flex-direction: column;
+  
+  ::ng-deep {
+    full-calendar {
       width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      flex: 1;
     }
 
-    .day-number {
-      font-size: 0.9rem;
+    .fc {
+      --fc-border-color: #E2E8F0;
+      --fc-button-bg-color: #FF8C00;
+      --fc-button-border-color: #FF8C00;
+      --fc-button-hover-bg-color: #ffa533;
+      --fc-button-hover-border-color: #ffa533;
+      --fc-button-active-bg-color: #e67e00;
+      --fc-button-active-border-color: #e67e00;
+      --fc-today-bg-color: rgba(255, 140, 0, 0.05);
+      --fc-button-border-radius: 4px;
+      
+      font-family: inherit;
+
+      .fc-button:focus, .fc-button:active {
+        box-shadow: none !important;
+      }
     }
 
-    .day-bookings {
-      display: flex;
-      gap: 3px;
-      margin-top: 4px;
+    .fc-header-toolbar {
+      margin-bottom: 1.5rem !important;
     }
 
-    .booking-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
+    .fc-toolbar-title {
+      font-size: 1.25rem !important;
+      font-weight: 700;
+      color: #420D3F;
+    }
 
-      &.Confirmed { background-color: #27AE60; }
-      &.Pending { background-color: #F39C12; }
+    .fc-event {
+      cursor: pointer;
+      border: none;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    .fc-daygrid-day.fc-day-today {
+      background-color: var(--fc-today-bg-color) !important;
     }
   }
 }

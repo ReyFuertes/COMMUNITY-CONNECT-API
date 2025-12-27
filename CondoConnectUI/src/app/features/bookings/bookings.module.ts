@@ -8,6 +8,8 @@ import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { bookingsReducer } from './store/bookings.reducer';
@@ -26,6 +28,8 @@ import { BookingsEffects } from './store/bookings.effects';
     ButtonModule,
     InputTextModule,
     SelectModule,
+    AutoCompleteModule,
+    FullCalendarModule,
     RouterModule.forChild([
       { path: '', component: BookingsComponent }
     ]),
